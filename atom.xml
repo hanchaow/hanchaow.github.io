@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hank&#39;s Blog</title>
+  <subtitle>码农的藏经阁</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-06-20T04:40:43.445Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Hanchaow</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于我</title>
+    <link href="http://yoursite.com/2017/06/20/about-me/"/>
+    <id>http://yoursite.com/2017/06/20/about-me/</id>
+    <published>2017-06-20T04:19:42.000Z</published>
+    <updated>2017-06-20T04:40:43.445Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h1><ul>
+<li><p>目前是尘世中一枚屌丝 <strong>程序猿</strong>，专注搬砖二十年（呃，作为一个90后，深感 <strong>“路漫漫其修远兮”</strong> 啊） ~~</p>
+</li>
+<li><p>求学与成长经历：</p>
+<ul>
+<li>1990年出生于河南的一个小村庄，刚好赶上了90后的第一趟班车，由于少年与火有缘，且算命先生说我五行缺，于是</li>
+<li>2008年火急火燎地跑到了位于羊城的 <strong>“五山禅寺”</strong> 进修，鬼使神差学了计算专业，从此走上了码农的不归路…… </li>
+<li>经过四年的 “禅悟”，同时坚持“药不能停”的原则和理念，2012年又厚着脸皮在位于霸都的 <strong>“南七技校”</strong>讨了一个硕士学位，主攻数据挖掘（不是蓝翔技校的挖掘机修理哈，^_^）</li>
+<li>终于，2015年小硕毕业，由于学艺不精，加之父母期望一份稳定轻松的工作，所以校招选择了一家总部位于深圳的银行，进入该行的大零售团队工作，主做交易系统开发，看着高大上的名字，其实是非主流的开发技术……</li>
+<li>工作一年有余，眼见深圳房价一天天水涨船高，想到一无所有的自己，想到技术一天天变渣，加之对银行业务不感兴趣，躁动不安之心涌起。所以，只好不停地问自己：这是我期望的生活吗？这是我追求的目标吗？</li>
+<li>经过两个星期的认真思考和挣扎，总感觉自己的人生不应该如此四平八稳，毕竟人还是要有梦想的，<strong>一个人如果没有梦想，那和咸鱼有什么区别?</strong>  于是，2016年毅然决然辞职了，去了一家小创业公司打磨自己</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>职业和研究兴趣：  <ul>
+<li>公司目前主做人脸识别相关产品，自己负责算法的研发，所以主要的学习和研究领域有：<strong>神经网络与深度学习，机器学习，人工智能，数据挖掘，</strong>当然也正在学习一些<strong>传统CV</strong>的技术</li>
+<li>至于编程语言，学过<strong>C/C++ 、Java</strong>，用过<strong>Pyhton、C#</strong> ，考虑工作需要和研究兴趣，准备加强下<strong>C++</strong> 和 <strong>Python</strong> 的学习</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>自己的兴趣爱好：<ul>
+<li>喜欢听音乐，尤其是经典的轻音乐：钢琴曲、古筝、葫芦丝、小提琴（注意，只是喜欢听哈）</li>
+<li>喜欢看电影，尤其是经典励志大片，可以给自己正能量哦</li>
+<li>喜欢瞎写字，所以有时候会小文艺一番~~</li>
+<li>运动类的喜欢跑步，因为比较简单，还可以锻炼耐力和减肥</li>
+<li>喜欢一个人静静地思考，虽然并不精通数学和算法，但是喜欢研究它们</li>
+<li>喜欢Coding，更喜欢解决一个又一个遇到的问题和挑战，非常享受解决问题的过程，哪怕过程很痛苦</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>对自己的评价：<ul>
+<li>乐观开朗，踏实认真，不怕吃苦，敢于承担</li>
+<li>喜欢干净利索，不喜欢拖泥带水</li>
+<li>做事喜欢三思而后行，秉承“如果做，就把它做好”的理念</li>
+<li>追求完美，但是考虑太多，容易陷入细节</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>对来的未来期望：<ul>
+<li>多读书，安安静静地 Reading, 去掉内心无事可做时的浮躁与不安, 力争做一个安静的美男子</li>
+<li>多记录，记录和总结日常生活和工作中的<strong>所思、所想、所学</strong></li>
+<li>多运动，保持健康的身体、充沛精力和良好的心态，身体永远是第一位的哟</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>最喜欢的人生格言：<ul>
+<li>Some thing to do, some one to love, some thing to hope.（有想做的事，有值得爱的人，有美丽的梦)</li>
+</ul>
+</li>
+</ul>
+<h1 id="我的项目"><a href="#我的项目" class="headerlink" title="我的项目"></a>我的项目</h1><ul>
+<li>待补充</li>
+</ul>
+<h1 id="我的博客"><a href="#我的博客" class="headerlink" title="我的博客"></a>我的博客</h1><ul>
+<li>吃水不忘打井人，感谢 Hexo工具和 <a href="https://github.com/GeekaholicLin" target="_blank" rel="external">林家兴 / Geekaholic 童鞋</a> 提供的 [精美主题 ylion] (<a href="https://github.com/GeekaholicLin/hexo-theme-ylion" target="_blank" rel="external">https://github.com/GeekaholicLin/hexo-theme-ylion</a>)</li>
+<li>作为一枚打酱油的码农，生活中、工作中总会遇到各种各样的问题，一直想做点笔记和总结，却一直没实现，这次终于有了机会</li>
+<li>深信<strong>好记性不如烂笔头</strong>，做笔记可以梳理自己想法，加深自己的理解，同时也可以用文字的形式分享自己的体会</li>
+</ul>
+<h1 id="我的联系方式"><a href="#我的联系方式" class="headerlink" title="我的联系方式"></a>我的联系方式</h1><ul>
+<li><strong>GitHub:</strong>  <a href="https://github.com/hanchaow" target="_blank" rel="external">https://github.com/hanchaow</a></li>
+<li><strong>Email:</strong> echo d2hjc2N1dEBnbWFpbC5jb20= | base64 -d</li>
+<li><strong>Homepage:</strong> <a href="https://hanchaow.github.io/" target="_blank" rel="external">https://hanchaow.github.io/</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      关于我
+    
+    </summary>
+    
+      <category term="关于我" scheme="http://yoursite.com/categories/%E5%85%B3%E4%BA%8E%E6%88%91/"/>
+    
+      <category term="about_me" scheme="http://yoursite.com/categories/%E5%85%B3%E4%BA%8E%E6%88%91/about-me/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>使用Hexo搭建静态博客</title>
+    <link href="http://yoursite.com/2017/06/20/CreaateBlogUsingHexo/"/>
+    <id>http://yoursite.com/2017/06/20/CreaateBlogUsingHexo/</id>
+    <published>2017-06-20T00:57:59.000Z</published>
+    <updated>2017-06-20T06:16:45.776Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="使用Hexo搭建自己的博客"><a href="#使用Hexo搭建自己的博客" class="headerlink" title="使用Hexo搭建自己的博客"></a>使用Hexo搭建自己的博客</h1><h2 id="前言-amp-amp-致谢"><a href="#前言-amp-amp-致谢" class="headerlink" title="前言 &amp;&amp; 致谢"></a>前言 &amp;&amp; 致谢</h2><ul>
+<li>感谢 <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a> : <code>A fast, simple &amp; powerful blog framework</code>(一个简单、快速、强大的博客发布工具，同时拥有众多的插件、优秀的主题，关键还支持Markdown，简直不能再酷)</li>
+<li>感谢 Hexo提供的<a href="https://hexo.io/themes/" target="_blank" rel="external">精美主题</a></li>
+<li>感谢 <a href="https://github.com/GeekaholicLin" target="_blank" rel="external">林家兴 / Geekaholic 童鞋</a> 提供的 <a href="https://github.com/GeekaholicLin/hexo-theme-ylion" target="_blank" rel="external">精美主题 ylion</a></li>
+<li>搭建博客时，参考资料：<ul>
+<li><a href="http://blog.liuxianan.com/build-blog-website-by-hexo-github.html" target="_blank" rel="external">使用hexo+github搭建免费个人博客详细教程</a></li>
+<li><a href="http://www.tuicool.com/articles/ABFn2qU" target="_blank" rel="external">使用hexo搭建静态博客</a></li>
+<li><a href="http://www.joryhe.com/2016-05-29-how_to_create_leancloud_read_Counter.html" target="_blank" rel="external">leanCloud,实现文章阅读量统计</a></li>
+<li><a href="https://imsun.net/posts/gitment-introduction/" target="_blank" rel="external">Gitment：使用 GitHub Issues 搭建评论系统</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>安装 <a href="https://nodejs.org/en/" target="_blank" rel="external">node.js</a></li>
+<li>Npm的 <a href="http://www.runoob.com/nodejs/nodejs-npm.html" target="_blank" rel="external">使用教程</a>,简单了解Npm的命名和使用方式</li>
+<li>如果Npm安装模块的时候速度比较慢，推荐使用<a href="http://npm.taobao.org/" target="_blank" rel="external">淘宝的Npm镜像</a></li>
+</ul>
+<h2 id="Hexo的安装、初始化和启动"><a href="#Hexo的安装、初始化和启动" class="headerlink" title="Hexo的安装、初始化和启动"></a>Hexo的安装、初始化和启动</h2><h3 id="Hexo安装"><a href="#Hexo安装" class="headerlink" title="Hexo安装"></a>Hexo安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g hexo</div></pre></td></tr></table></figure>
+<h3 id="Hexo初始化一个博客"><a href="#Hexo初始化一个博客" class="headerlink" title="Hexo初始化一个博客"></a>Hexo初始化一个博客</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">d:</div><div class="line">cd Workplace</div><div class="line">mkdir hexo</div><div class="line">cd hexo</div><div class="line">hexo init blog   #初始化一个博客</div></pre></td></tr></table></figure>
+<p><img src="/images/CreaateBlogUsingHexo/hexo_init.png" alt=""></p>
+<h3 id="Hexo生成博客的静态页面，启动服务"><a href="#Hexo生成博客的静态页面，启动服务" class="headerlink" title="Hexo生成博客的静态页面，启动服务"></a>Hexo生成博客的静态页面，启动服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo g # 生成</div><div class="line">$ hexo s # 启动服务</div></pre></td></tr></table></figure>
+<p><img src="/images/CreaateBlogUsingHexo/gen_public.png" alt=""></p>
+<p>默认预览地址：<a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a>  （如果打不开，可能是端口冲突）</p>
+<p>更快捷的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s -p 4000 #指定端口</div></pre></td></tr></table></figure>
+<p><img src="/images/CreaateBlogUsingHexo/hexo_start.png" alt=""></p>
+<h3 id="Hexo主题更换"><a href="#Hexo主题更换" class="headerlink" title="Hexo主题更换"></a>Hexo主题更换</h3><p>Hexo初始化一个博客后，会默认使用主题 landscape ，如果想更换其他主题，参考如下步骤：</p>
+<p>这里以使用 <a href="https://github.com/GeekaholicLin/hexo-theme-ylion" target="_blank" rel="external">hexo-theme-ylion</a>为例</p>
+<h4 id="下载主题"><a href="#下载主题" class="headerlink" title="下载主题"></a>下载主题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd themes</div><div class="line">git clone git@github.com:GeekaholicLin/hexo-theme-ylion.git</div></pre></td></tr></table></figure>
+<p>或者直接使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone git@github.com:GeekaholicLin/hexo-theme-ylion.git themes/ylion</div></pre></td></tr></table></figure>
+<h4 id="安装依赖（如果有的话，注意切换到你新建的blog目录）"><a href="#安装依赖（如果有的话，注意切换到你新建的blog目录）" class="headerlink" title="安装依赖（如果有的话，注意切换到你新建的blog目录）"></a>安装依赖（如果有的话，注意切换到你新建的blog目录）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">npm install hexo-renderer-ejs --save</div><div class="line">npm install hexo-renderer-less --save</div><div class="line">npm install hexo-generator-feed --save</div><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-deployer-git --save</div><div class="line">## 若node_module目录下无以下文件夹，也要进行安装</div><div class="line">## 注意ejs的版本问题(见issue 5)</div><div class="line">npm install ejs@^1.0.0 --save</div><div class="line">npm install moment --save</div><div class="line">npm install utils-merge --save</div></pre></td></tr></table></figure>
+<h4 id="修改-blog目录下的全局配置文件：-config-yml"><a href="#修改-blog目录下的全局配置文件：-config-yml" class="headerlink" title="修改 blog目录下的全局配置文件：_config.yml"></a>修改 blog目录下的全局配置文件：<code>_config.yml</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: ylion #要替换的主题名称（主题的目录名称）</div></pre></td></tr></table></figure>
+<h4 id="重新发布，测试效果："><a href="#重新发布，测试效果：" class="headerlink" title="重新发布，测试效果："></a>重新发布，测试效果：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s -p 4000 #指定端口</div></pre></td></tr></table></figure>
+<h2 id="小的建议"><a href="#小的建议" class="headerlink" title="小的建议"></a>小的建议</h2><h3 id="Hexo-常用命令汇总："><a href="#Hexo-常用命令汇总：" class="headerlink" title="Hexo 常用命令汇总："></a>Hexo 常用命令汇总：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">hexo new &quot;postName&quot; #新建文章</div><div class="line">hexo new page &quot;pageName&quot; #新建页面</div><div class="line">hexo generate #生成静态页面至public目录</div><div class="line">hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server）</div><div class="line">hexo deploy #部署到GitHub</div><div class="line">hexo help  # 查看帮助</div><div class="line">hexo version  #查看Hexo的版本</div></pre></td></tr></table></figure>
+<h3 id="简写命令："><a href="#简写命令：" class="headerlink" title="简写命令："></a>简写命令：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo n == hexo new</div><div class="line">hexo g == hexo generate</div><div class="line">hexo s == hexo server</div><div class="line">hexo d == hexo deploy</div></pre></td></tr></table></figure>
+<h3 id="组合命令："><a href="#组合命令：" class="headerlink" title="组合命令："></a>组合命令：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo s -g #生成并本地预览</div><div class="line">hexo d -g #生成并上传</div><div class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s -p 4000 #清楚静态文件，生产文件并启动服务</div></pre></td></tr></table></figure>
+<h3 id="hexo-插件推荐"><a href="#hexo-插件推荐" class="headerlink" title="hexo 插件推荐"></a>hexo 插件推荐</h3><p>如果你为了更好地写博客，推荐两个Hexo插件：hexo-browsersync 和 hexo-admin。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo-browsersync --save</div><div class="line">npm install hexo-admin --save</div></pre></td></tr></table></figure>
+<p>hexo-browsersync 主要用于监听刷新，hexo-admin 提供类似后台的功能。前者无需配置，按照平常启用server预览即可。</p>
+<h2 id="常见问题汇总："><a href="#常见问题汇总：" class="headerlink" title="常见问题汇总："></a>常见问题汇总：</h2><h3 id="插入picture的方法，采用绝对路径"><a href="#插入picture的方法，采用绝对路径" class="headerlink" title="插入picture的方法，采用绝对路径"></a>插入picture的方法，采用绝对路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![](/images/CreaateBlogUsingHexo/pic_name.png)</div></pre></td></tr></table></figure>
+<h3 id="Yaml解析报错"><a href="#Yaml解析报错" class="headerlink" title="Yaml解析报错"></a>Yaml解析报错</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ERROR Process failed: _posts/CreaateBlogUsingHexo.md</div><div class="line">YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 10, column 1:</div><div class="line"></div><div class="line">    ^</div><div class="line">    at generateError (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:162:10)</div><div class="line">    at throwError (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:168:9)</div><div class="line">    at readBlockMapping (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:1045:9)</div><div class="line">    at composeNode (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:1331:12)</div><div class="line">    at readDocument (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:1493:3)</div><div class="line">    at loadDocuments (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:1549:5)</div><div class="line">    at Object.load (D:\Workplace\hexo\blog\node_modules\js-yaml\lib\js-yaml\loader.js:1566:19)</div><div class="line">    at parseYAML (D:\Workplace\hexo\blog\node_modules\hexo-front-matter\lib\front_matter.js:80:21)</div></pre></td></tr></table></figure>
+<p><img src="/images/CreaateBlogUsingHexo/yml_error.png" alt=""></p>
+<p>原因： YAML方式，以三短线开始和结束，每个类型后面加 <code>:</code>并且要加一个空格！！</p>
+<h3 id="阅读量统计"><a href="#阅读量统计" class="headerlink" title="阅读量统计"></a>阅读量统计</h3><p>使用leanCloud实现文章阅读量统计，在官网注册完成后，新建class时，假设新建的class名称为 <code>Counter</code>,那么主题里面的配置文件<code>_config.yml</code>需要做如下配置方可生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">leancloud:</div><div class="line">  </div><div class="line">enable: true</div><div class="line">  </div><div class="line">className: &quot;Counter&quot;</div></pre></td></tr></table></figure>
+<p>即保持ClassName一致</p>
+]]></content>
+    
+    <summary type="html">
+    
+      使用Hexo搭建自己的博客
+    
+    </summary>
+    
+      <category term="博客" scheme="http://yoursite.com/categories/%E5%8D%9A%E5%AE%A2/"/>
+    
+      <category term="搭建博客" scheme="http://yoursite.com/categories/%E5%8D%9A%E5%AE%A2/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
+    
+  </entry>
+  
+</feed>
