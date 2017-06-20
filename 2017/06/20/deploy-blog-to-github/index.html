@@ -22,7 +22,7 @@
 <meta name="verify" content=all />
     <!--Title-->
 
-<title>归档：2017/6 | Hank&#39;s Blog</title>
+<title>使用Hexo发布静态博客到Github | Hank&#39;s Blog</title>
 
 <link rel="alternate" href="/atom.xml" title="Hank&#39;s Blog" type="application/atom+xml">
 
@@ -31,10 +31,10 @@
 
     
 <link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/pages/archive.css">
+<link rel="stylesheet" href="/css/pages/post.css">
 <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/thirdParty/highlight/github.css">
-<link rel="stylesheet" href="/.css">
+<link rel="stylesheet" href="/css/pages/comments.css">
     <!--script-->
 
 
@@ -53,6 +53,23 @@
 
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+  var labels = "blog,gitment";
+  labels = labels.split(",");
+  var gitment = new Gitment({
+    id: window.location.pathname,
+    owner: "hanchaow",
+    repo: "hanchaow.github.io",
+    oauth: {
+      client_id: "6c58b9a9fbcf9c77ed63",
+      client_secret: "badcc6a6c12115f4c0c5494ad97c8388370ea294"
+    },
+    perPage: "20",
+    labels: labels
+  });
+</script>
 
     
 <script>
@@ -180,15 +197,16 @@ Hank 的博客，尘世中一迷途小码农！<br />
 </ul>
 
 
-        
-<div id="main">
-  <div id="post-list">
-    <ul class="archives-post-list">
-        
-      <li class="post-items" _href="/2017/06/20/deploy-blog-to-github/">
-        <p class="info">2017</p>
-        <h2 class="post-item-title">使用Hexo发布静态博客到Github</h2>
-          <div class="article-meta">
+        <div id="main">
+    <article id="post">
+        <div id="post-header">
+
+            <h1 id="使用Hexo发布静态博客到Github">
+                
+                使用Hexo发布静态博客到Github
+                
+            </h1>
+            <div class="article-meta">
     
     
     <span class="categories-meta fa-wrap">
@@ -209,7 +227,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta ">06/20</span>
+        <span class="date-meta ">2017/06/20</span>
     </span>
     
     
@@ -222,90 +240,87 @@ Hank 的博客，尘世中一迷途小码农！<br />
     
 </div>
 
-      </li>
+            
+            
+        </div>
         
-      <li class="post-items" _href="/2017/06/20/about-me/">
-        <p class="info">2017</p>
-        <h2 class="post-item-title">关于我</h2>
-          <div class="article-meta">
+        <div id="post-body">
+            <h1 id="使用Hexo发布静态博客到Github"><a href="#使用Hexo发布静态博客到Github" class="headerlink" title="使用Hexo发布静态博客到Github"></a>使用Hexo发布静态博客到Github</h1><h2 id="修改blog下的配置文件"><a href="#修改blog下的配置文件" class="headerlink" title="修改blog下的配置文件"></a>修改blog下的配置文件</h2><p><code>_config.yml</code> 文件的最后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:hanchaow/hanchaow.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<h2 id="使用git-bash发布博客"><a href="#使用git-bash发布博客" class="headerlink" title="使用git bash发布博客"></a>使用git bash发布博客</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div><div class="line">hexo d</div></pre></td></tr></table></figure>
+<h2 id="遇到的问题汇总"><a href="#遇到的问题汇总" class="headerlink" title="遇到的问题汇总"></a>遇到的问题汇总</h2><p>执行命令<code>hexo d</code>提示<code>Deployer not found: github</code>，解决方法：<code>_config.yml</code> 文件中的deploy type为 <code>git</code> 而不是 <code>giuthub</code></p>
+
+        </div>
+        <div id="post-footer">
+            <div class="avatar" >
+                <img src="/images/author.jpg" alt="avatar"/>
+                
+                <a href="javascript:void(0)" class="high-song">high起来 &#128541;</a>
+                
+                
+                <a href="javascript:void(0)" class="donate fa">赠我一杯 &#128536;</a>
+                
+            </div>
+            <ul class="author-profile-section">
+                <li>作者:
+                    
+                    <a href="/about.html">Hanchaow</a>
+                </li>
+                <li>发表日期: <span>2017-06-20  02:55:19</span></li>
+                
+                <li>最后编辑日期: <span>2017-06-20  03:15:40</span></li>
+                
+                <li class="post-category">
+                    文章分类:
+                    
+                    <a href="/categories/博客/">博客</a>
+                    
+                    <a href="/categories/博客/发布博客/">发布博客</a>
+                    
+                </li>
+                <li class="post-tags">
+                    文章标签:
+                    
+                    <a href="/tags/Hexo/">Hexo</a>
+                    
+                </li>
+                
+                <li> 版权声明: <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">
+知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议（CC BY-NC-ND 3.0）
+</a></li>
+                
+            </ul>
+            <div id="donate-wrap">
+                
+                
+                
+                <img src="/images/zhifubao.JPG" alt="支付宝付款" class="donate-img">
+                
+                <img src="/images/weixin.JPG" alt="微信付款" class="donate-img">
+                
+                
+            </div>
+        </div>
+    </article>
+    <div class="article-nav">
+        
+        
+        <a href="/2017/06/20/about-me/" class="next-post fa">关于我</a>
+        
+    </div>
     
-    
-    <span class="categories-meta fa-wrap">
-            <i class="fa fa-folder-open-o"></i>
-        <span>about_me</span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-         <i class="fa fa-tags"></i>
-        <span class="tags-meta">
-            
-            null
-            
-        </span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta ">06/20</span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-            <i class="fa fa-thermometer-three-quarters"></i>
-        <span class="hits hits-meta " data-leadcloud-title="关于我"
-              data-leadcloud-url="/2017/06/20/about-me/"><i class="fa fa-spinner fa-spin"></i></span>
-    </span>
-    
+    <div id="comments">
+        
+
+<script>
+  gitment.render(document.getElementById("comments"));
+</script>
+
+
+
+    </div>
     
 </div>
-
-      </li>
-        
-      <li class="post-items" _href="/2017/06/20/CreaateBlogUsingHexo/">
-        <p class="info">2017</p>
-        <h2 class="post-item-title">使用Hexo搭建静态博客</h2>
-          <div class="article-meta">
-    
-    
-    <span class="categories-meta fa-wrap">
-            <i class="fa fa-folder-open-o"></i>
-        <span>搭建博客</span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-         <i class="fa fa-tags"></i>
-        <span class="tags-meta">
-            
-            Hexo
-            
-        </span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta ">06/20</span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-            <i class="fa fa-thermometer-three-quarters"></i>
-        <span class="hits hits-meta " data-leadcloud-title="使用Hexo搭建静态博客"
-              data-leadcloud-url="/2017/06/20/CreaateBlogUsingHexo/"><i class="fa fa-spinner fa-spin"></i></span>
-    </span>
-    
-    
-</div>
-
-      </li>
-        
-    </ul>
-  </div>
-</div>
-
 
 
     </div>
@@ -345,8 +360,14 @@ Hank 的博客，尘世中一迷途小码农！<br />
     <ul id="tools">
     <li class="totop-btn fa fa-angle-up"></li>
     
+    <li class="toc-btn fa fa-list-ul"></li>
+    
     
 
+    
+    <li class="comment-btn fa fa-comments-o">
+        <a href="#comments" title="comments"></a>
+    </li>
     
 </ul>
 <p id="process"></p>
@@ -364,6 +385,8 @@ Hank 的博客，尘世中一迷途小码农！<br />
         </div>
     </div>
 </div>
+
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Hexo发布静态博客到Github"><span class="toc-number">1.</span> <span class="toc-text">使用Hexo发布静态博客到Github</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改blog下的配置文件"><span class="toc-number">1.1.</span> <span class="toc-text">修改blog下的配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用git-bash发布博客"><span class="toc-number">1.2.</span> <span class="toc-text">使用git bash发布博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的问题汇总"><span class="toc-number">1.3.</span> <span class="toc-text">遇到的问题汇总</span></a></li></ol></li></ol>
 
 
     <script src="/js/highsong.js"></script>
