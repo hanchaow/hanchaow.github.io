@@ -22,7 +22,7 @@
 <meta name="verify" content=all />
     <!--Title-->
 
-<title>关于我 | Hank&#39;s Blog</title>
+<title>C/C++读写ini配置文件 | Hank&#39;s Blog</title>
 
 <link rel="alternate" href="/atom.xml" title="Hank&#39;s Blog" type="application/atom+xml">
 
@@ -201,9 +201,9 @@ Hank 的博客，尘世中一迷途小码农！<br />
     <article id="post">
         <div id="post-header">
 
-            <h1 id="关于我">
+            <h1 id="C/C++读写ini配置文件">
                 
-                关于我
+                C/C++读写ini配置文件
                 
             </h1>
             <div class="article-meta">
@@ -211,7 +211,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
     
     <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-        <span>about_me</span>
+        <span>文件操作</span>
     </span>
     
     
@@ -219,7 +219,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
          <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            null
+            ini配置文件
             
         </span>
     </span>
@@ -227,14 +227,14 @@ Hank 的博客，尘世中一迷途小码农！<br />
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta ">2017/06/20</span>
+        <span class="date-meta ">2017/06/30</span>
     </span>
     
     
     <span class="fa-wrap">
             <i class="fa fa-thermometer-three-quarters"></i>
-        <span class="hits hits-meta " data-leadcloud-title="关于我"
-              data-leadcloud-url="/2017/06/20/about-me/"><i class="fa fa-spinner fa-spin"></i></span>
+        <span class="hits hits-meta " data-leadcloud-title="C/C++读写ini配置文件"
+              data-leadcloud-url="/2017/06/30/program-language-c-cplus/"><i class="fa fa-spinner fa-spin"></i></span>
     </span>
     
     
@@ -245,73 +245,40 @@ Hank 的博客，尘世中一迷途小码农！<br />
         </div>
         
         <div id="post-body">
-            <h1 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h1><ul>
-<li><p>目前是尘世中一枚屌丝 <strong>程序猿</strong>，专注搬砖二十年（呃，作为一个90后，深感 <strong>“路漫漫其修远兮”</strong> 啊） ~~</p>
-</li>
-<li><p>求学与成长经历：</p>
+            <h1 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h1><p>最近使用C++写的一个小程序，输入是人脸框、头肩框的位置，根据人脸框和头肩框的位置实现人的跟踪，即输出是不同人脸框的跟踪号，为了保证跟踪号不丢、不重复、不交叉互换，设置了很多策略和阀值，考虑到阀值种类太多，为了测试出比较好的阀值，在实际测试过程中需要反复设置不同的阀值，为此，考虑使用ini配置文件的方式进行设置</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>第一次使用C++解析ini配置文件，这里首选使用微软在Windows下提供的api，毕竟站在巨人的肩膀上更容易成功（当然也可以自己造轮子实现一个ini文件的解析器）</p>
+<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#include &lt;Winbase.h&gt;  //VC中默认是包含该文件的</div></pre></td></tr></table></figure>
+<h2 id="API预览"><a href="#API预览" class="headerlink" title="API预览"></a>API预览</h2><p>Winbase.h 中提供了很多API函数来对ini配置文件进行读写，这里只介绍用的三个：</p>
 <ul>
-<li>1990年出生于河南的一个小村庄，刚好赶上了90后的第一趟班车，由于少年与火有缘，且算命先生说我五行缺，于是</li>
-<li>2008年火急火燎地跑到了位于羊城的 <strong>“五山禅寺”</strong> 进修，鬼使神差学了计算专业，从此走上了码农的不归路…… </li>
-<li>经过四年的 “禅悟”，同时坚持“药不能停”的原则和理念，2012年又厚着脸皮在位于霸都的 <strong>“南七技校”</strong>讨了一个硕士学位，主攻数据挖掘（不是蓝翔技校的挖掘机修理哈，^_^）</li>
-<li>终于，2015年小硕毕业，由于学艺不精，加之父母期望一份稳定轻松的工作，所以校招选择了一家总部位于深圳的银行，进入该行的大零售团队工作，主做交易系统开发，看着高大上的名字，其实是非主流的开发技术……</li>
-<li>工作一年有余，眼见深圳房价一天天水涨船高，想到一无所有的自己，想到技术一天天变渣，加之对银行业务不感兴趣，躁动不安之心涌起。所以，只好不停地问自己：这是我期望的生活吗？这是我追求的目标吗？</li>
-<li>经过两个星期的认真思考和挣扎，总感觉自己的人生不应该如此四平八稳，毕竟人还是要有梦想的，<strong>一个人如果没有梦想，那和咸鱼有什么区别?</strong>  于是，2016年毅然决然辞职了，去了一家小创业公司打磨自己</li>
+<li><code>GetPrivateProfileInt</code>       从私有初始化文件获取整型数值</li>
+<li><code>GetPrivateProfileString</code>  从私有初始化文件获取字符串型值</li>
+<li><code>WritePrivateProfileString</code> 写字符串到私有初始化文件</li>
 </ul>
-</li>
-</ul>
+<h2 id="函数原型声明："><a href="#函数原型声明：" class="headerlink" title="函数原型声明："></a>函数原型声明：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UINT GetPrivateProfileInt(LPCTSTR lpAppName,LPCTSTR lpKeyName,INT nDefault,LPCTSTR lpFileName);</div><div class="line">DWORD GetPrivateProfileString(LPCTSTR lpAppName,LPCTSTR lpKeyName,LPCTSTR lpDefaut,LPSTR lpReturnedString,DWORD nSize,LPCTSTR lpFileName);//读取.ini文件</div><div class="line">bool WritePrivateProfileString(LPCTSTR lpAppName,LPCTSTR lpKeyName,LPCTSTR lpString,LPCTSTR lpFileName);</div></pre></td></tr></table></figure>
+<p>相关的参数解释：</p>
 <ul>
-<li>职业和研究兴趣：  <ul>
-<li>公司目前主做人脸识别相关产品，自己负责算法的研发，所以主要的学习和研究领域有：<strong>神经网络与深度学习，机器学习，人工智能，数据挖掘，</strong>当然也正在学习一些<strong>传统CV</strong>的技术</li>
-<li>至于编程语言，学过<strong>C/C++ 、Java</strong>，用过<strong>Pyhton、C#</strong> ，考虑工作需要和研究兴趣，准备加强下<strong>C++</strong> 和 <strong>Python</strong> 的学习</li>
+<li>LPCTSTR lpAppName ： INI文件中的一个字段名</li>
+<li>LPCTSTR lpKeyName ： lpAppName 下的一个键名，也就是里面具体的变量名</li>
+<li>LPCTSTR lpString  ： 是键值，也就是变量的值， 必须为LPCTSTR或CString类型</li>
+<li>LPCTSTR lpFileName ：完整的INI文件路径名</li>
+<li>LPCTSTR lpDefaut ：如果没有其前两个参数值，则将此值赋给变量</li>
+<li>LPSTR lpReturnedString ： 接收INI文件中的值的CString对象，即接收缓冲区</li>
+<li>DWORD nSize ：接收缓冲区的大小</li>
 </ul>
-</li>
-</ul>
-<ul>
-<li>自己的兴趣爱好：<ul>
-<li>喜欢听音乐，尤其是经典的轻音乐：钢琴曲、古筝、葫芦丝、小提琴（注意，只是喜欢听哈）</li>
-<li>喜欢看电影，尤其是经典励志大片，可以给自己正能量哦</li>
-<li>喜欢瞎写字，所以有时候会小文艺一番~~</li>
-<li>运动类的喜欢跑步，因为比较简单，还可以锻炼耐力和减肥</li>
-<li>喜欢一个人静静地思考，虽然并不精通数学和算法，但是喜欢研究它们</li>
-<li>喜欢Coding，更喜欢解决一个又一个遇到的问题和挑战，非常享受解决问题的过程，哪怕过程很痛苦</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>对自己的评价：<ul>
-<li>乐观开朗，踏实认真，不怕吃苦，敢于承担</li>
-<li>喜欢干净利索，不喜欢拖泥带水</li>
-<li>做事喜欢三思而后行，秉承“如果做，就把它做好”的理念</li>
-<li>追求完美，但是考虑太多，容易陷入细节</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>对来的未来期望：<ul>
-<li>多读书，安安静静地 Reading, 去掉内心无事可做时的浮躁与不安, 力争做一个安静的美男子</li>
-<li>多记录，记录和总结日常生活和工作中的<strong>所思、所想、所学</strong></li>
-<li>多运动，保持健康的身体、充沛精力和良好的心态，身体永远是第一位的哟</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>最喜欢的人生格言：<ul>
-<li>Some thing to do, some one to love, some thing to hope.（有想做的事，有值得爱的人，有美丽的梦)</li>
-</ul>
-</li>
-</ul>
-<h1 id="我的项目"><a href="#我的项目" class="headerlink" title="我的项目"></a>我的项目</h1><ul>
-<li>待补充</li>
-</ul>
-<h1 id="我的博客"><a href="#我的博客" class="headerlink" title="我的博客"></a>我的博客</h1><ul>
-<li>吃水不忘打井人，感谢 Hexo工具和 <a href="https://github.com/GeekaholicLin" target="_blank" rel="external">林家兴 / Geekaholic 童鞋</a> 提供的 [精美主题 ylion] (<a href="https://github.com/GeekaholicLin/hexo-theme-ylion" target="_blank" rel="external">https://github.com/GeekaholicLin/hexo-theme-ylion</a>)</li>
-<li>作为一枚打酱油的码农，生活中、工作中总会遇到各种各样的问题，一直想做点笔记和总结，却一直没实现，这次终于有了机会</li>
-<li>深信<strong>好记性不如烂笔头</strong>，做笔记可以梳理自己想法，加深自己的理解，同时也可以用文字的形式分享自己的体会</li>
-</ul>
-<h1 id="我的联系方式"><a href="#我的联系方式" class="headerlink" title="我的联系方式"></a>我的联系方式</h1><ul>
-<li><strong>GitHub:</strong>  <a href="https://github.com/hanchaow" target="_blank" rel="external">https://github.com/hanchaow</a></li>
-<li><strong>Email:</strong> echo d2hjc2N1dEBnbWFpbC5jb20= | base64 -d</li>
-<li><strong>Homepage:</strong> <a href="https://hanchaow.github.io/" target="_blank" rel="external">https://hanchaow.github.io/</a></li>
+<h2 id="使用例子"><a href="#使用例子" class="headerlink" title="使用例子"></a>使用例子</h2><ol>
+<li>获取执行程序的路径</li>
+<li>获取执行程序的目录（通过查找\在字符串中最后一次出现的位置）</li>
+<li>组合成配置文件的路径（当前程序的路径）</li>
+<li>如果配置文件存在，则直接读取，否则新建一个配置文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 1. 得到exe执行路径.  </div><div class="line">LPTSTR lpPath = new char[MAX_PATH];</div><div class="line">GetModuleFileName(NULL, lpPath, MAX_PATH);</div><div class="line">	</div><div class="line">// 2. C语言strrchr()函数：查找某字符在字符串中最后一次出现的位置</div><div class="line">char *pFind = strrchr(lpPath, &apos;\\&apos;);</div><div class="line">if (pFind == NULL)</div><div class="line">&#123;</div><div class="line">	return;</div><div class="line">&#125;</div><div class="line">*pFind = &apos;\0&apos;;</div><div class="line"></div><div class="line">// 3. 组合成配置文件的路径</div><div class="line">strcat(lpPath, &quot;\\config.ini&quot;);</div><div class="line"></div><div class="line">// 4. 如果配置文件存在，则直接读取，否则新建一个配置文件</div><div class="line">if (!PathFileExists(lpPath)) //写操作</div><div class="line">&#123;</div><div class="line">	string null_line = &quot;\n&quot;;</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;Width&quot;, to_string(image_width).c_str(), lpPath);</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;Height&quot;, to_string(image_height).c_str(), lpPath);</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;TH_is_edge&quot;, to_string(TH_is_edge).c_str(), lpPath);</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;Rect_scale&quot;, (to_string(Rect_scale) + &quot;\n&quot;).c_str(), lpPath);</div><div class="line">	.....</div><div class="line"></div><div class="line">&#125;</div><div class="line">else  //读操作</div><div class="line">&#123;</div><div class="line">	image_width = GetPrivateProfileInt(&quot;Image&quot;, &quot;Width&quot;, 0, lpPath);</div><div class="line">	image_height = GetPrivateProfileInt(&quot;Image&quot;, &quot;Height&quot;, 0, lpPath);</div><div class="line">	TH_is_edge = GetPrivateProfileInt(&quot;Image&quot;, &quot;TH_is_edge&quot;, 0, lpPath);</div><div class="line"></div><div class="line">	LPTSTR lpFloat = new char[8];</div><div class="line">	GetPrivateProfileString(&quot;Image&quot;, &quot;Rect_scale&quot;, &quot;&quot;, lpFloat, 8, lpPath);</div><div class="line">	Rect_scale = atof(lpFloat);</div><div class="line"></div><div class="line">	GetPrivateProfileString(&quot;Overlap_Threhold&quot;, &quot;TH_face_to_face_1&quot;, &quot;&quot;, lpFloat,8, lpPath);</div><div class="line">	TH_face_to_face_1 = atof(lpFloat);</div><div class="line">	.....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://en.wikipedia.org/wiki/INI_file" target="_blank" rel="external">Wikipedia: INI file</a></li>
+<li><a href="http://blog.chinaunix.net/uid-24517893-id-2973290.html" target="_blank" rel="external">利用GetPrivateProfileString读取配置文件(.ini) </a></li>
+<li><a href="http://www.cnblogs.com/it-duit/p/5632547.html" target="_blank" rel="external">C/C++ 关于如何读写ini配置文件 （小结）</a></li>
+<li><a href="http://www.cnblogs.com/lishennan/p/5165136.html" target="_blank" rel="external">C++ 读取INI文件</a></li>
+<li><a href="http://www.cnblogs.com/ZJoy/archive/2010/12/17/1909589.html" target="_blank" rel="external">C++读写ini配置文件GetPrivateProfileString()&amp;WritePrivateProfileString()</a></li>
+<li><a href="http://c.biancheng.net/cpp/html/172.html" target="_blank" rel="external">C语言strrchr()函数：查找某字符在字符串中最后一次出现的位置</a></li>
 </ul>
 
         </div>
@@ -330,20 +297,26 @@ Hank 的博客，尘世中一迷途小码农！<br />
                     
                     <a href="/about.html">Hanchaow</a>
                 </li>
-                <li>发表日期: <span>2017-06-20  12:19:42</span></li>
+                <li>发表日期: <span>2017-06-30  09:43:01</span></li>
                 
-                <li>最后编辑日期: <span>2017-06-20  12:40:43</span></li>
+                <li>最后编辑日期: <span>2017-06-30  10:26:47</span></li>
                 
                 <li class="post-category">
                     文章分类:
                     
-                    <a href="/categories/关于我/">关于我</a>
+                    <a href="/categories/编程语言/">编程语言</a>
                     
-                    <a href="/categories/关于我/about-me/">about_me</a>
+                    <a href="/categories/编程语言/C-C/">C_C++</a>
+                    
+                    <a href="/categories/编程语言/C-C/文件操作/">文件操作</a>
                     
                 </li>
                 <li class="post-tags">
                     文章标签:
+                    
+                    <a href="/tags/ini配置文件/">ini配置文件</a>
+                    
+                    <a href="/tags/GetPrivateProfileString/">GetPrivateProfileString</a>
                     
                 </li>
                 
@@ -366,10 +339,8 @@ Hank 的博客，尘世中一迷途小码农！<br />
     </article>
     <div class="article-nav">
         
-        <a href="/2017/06/20/deploy-blog-to-github/" class="pre-post fa fa-caret-left">使用Hexo发布静态博客到Github</a>
         
-        
-        <a href="/2017/06/20/CreaateBlogUsingHexo/" class="next-post fa">使用Hexo搭建静态博客</a>
+        <a href="/2017/06/30/program-language-csharp/" class="next-post fa">解决C#程序多个进程同时打开同一个文件报错</a>
         
     </div>
     
@@ -450,7 +421,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
     </div>
 </div>
 
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#自我介绍"><span class="toc-number">1.</span> <span class="toc-text">自我介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#我的项目"><span class="toc-number">2.</span> <span class="toc-text">我的项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#我的博客"><span class="toc-number">3.</span> <span class="toc-text">我的博客</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#我的联系方式"><span class="toc-number">4.</span> <span class="toc-text">我的联系方式</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题由来"><span class="toc-number">1.</span> <span class="toc-text">问题由来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决方案"><span class="toc-number">2.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#头文件"><span class="toc-number">2.1.</span> <span class="toc-text">头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#API预览"><span class="toc-number">2.2.</span> <span class="toc-text">API预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数原型声明："><span class="toc-number">2.3.</span> <span class="toc-text">函数原型声明：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用例子"><span class="toc-number">2.4.</span> <span class="toc-text">使用例子</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">3.</span> <span class="toc-text">参考资料</span></a></li></ol>
 
 
     <script src="/js/highsong.js"></script>
