@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-30T02:36:59.335Z</updated>
+  <updated>2017-09-07T13:47:57.444Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,133 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Logistic回归分析</title>
+    <link href="http://yoursite.com/2017/09/07/logistic/"/>
+    <id>http://yoursite.com/2017/09/07/logistic/</id>
+    <published>2017-09-07T13:45:01.000Z</published>
+    <updated>2017-09-07T13:47:57.444Z</updated>
+    
+    <content type="html"><![CDATA[<p>#Logistic回归分析<br>$\qquad Logistic回归为概率型非线性回归模型，机器学习常用的二分类分类器，其表达式为：$</p>
+<p>$\quad \quad  z=w<em>{1}*x</em>{1}+w<em>{2}*x</em>{2}+\cdots+w<em>{n}*x</em>{n}+b=\sum<em>{i=0}^n w</em>{i}x<em>{i}  （其中 b等于w</em>{0}，x_{0}等于1）则: \$</p>
+<p>$$f(x) = \frac{1}{1+exp(-z)}$$</p>
+<p>$\quad \quad$即对于二分类，如果$f(x)\ge{0.5}$,则$x$属于第一类，即预测$y=1$，反之$x$属于第二类，预测$y=0$；样本的分布如下，其中，$C_1$表示第一个类别，$C_2$表示第二个类别，样本个数为$n$</p>
+<p>[<br>trainingData \quad\, x^1 \quad\, x^2 \quad\, x^3 \quad\,\cdots \quad\, x^n \\<br>\<br>\qquad  labels \qquad   \quad  C_1 \quad C_1 \quad C_2 \quad \cdots \quad C<em>1<br>]<br>$\qquad$我们的目的是：对于类别为$1$的正样本$f</em>{w,b}(x)$ 尽可能大,而类别为$2$的负样本$f<em>{w,b}(x)$ 尽可能小,则我们需要最大化：$L(w,b)=f</em>{w,b}(x^1)f<em>{w,b}(x^2)(1-f</em>{w,b}(x^3))\cdots\ f<em>{w,b}(x^n)$<br>来寻找最佳的$w$和$b$<br>[<br>w^<em>,b^</em> = arg\max\limits</em>{w,b}(L(w,b))\Longrightarrow\ w^<em>,b^</em> = arg\min\limits_{w,b}(-ln{L(w,b)})<br>]</p>
+<p><a href="https://zh.wikipedia.org/zh-hans/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95" target="_blank" rel="external">随机梯度下降法</a></p>
+<p>$\qquad 我们需要优化的函数：-ln{L(w,b)} = -{ln{f<em>{w,b}(x^1)}+lnf</em>{w,b}(x^2)+ln(1-f<em>{w,b}(x^3))+\cdots lnf</em>{w,b}(x^n)}\quad \$<br>$$<br>\qquad 假设：<br>\begin{cases}<br>\hat{y} = 1 \qquad \qquad x\in1 \\<br>\<br>\hat{y} = 0 \qquad \qquad x\in0<br>\end{cases}<br>\qquad 已知\,f(x) = \frac{1}{1+exp(-z)}\quad z = \sum<em>{i=0}^n  w</em>{i}x<em>{i} \qquad 则<br>$$<br>$\qquad 我们需要优化的函数简化为：ln{L(w,b)} =\sum</em>{j=1}^{n}{\hat{y}^j\,lnf<em>{w,b}(x^j)+(1-\hat{y}^j)\,ln(1-f</em>{w,b}(x^j))} \$</p>
+<p>$\qquad 当\,\,\hat{y}=1时\quad \hat{y}\,lnf<em>{w,b}(x)+(1-\hat y)\,ln(1-f</em>{w,b}(x)) = lnf<em>{w,b}(x) \$<br>$\qquad 当\,\,\hat{y}=0时\quad \hat{y}\,lnf</em>{w,b}(x)+(1-\hat y)\,ln(1-f<em>{w,b}(x)) = ln(1-f</em>{w,b}(x)) \qquad \$</p>
+<p>$\qquad 即均满足上式 , 因此:$</p>
+<p>$\qquad \qquad \quad \frac{\partial lnL(w,b)}{\partial w<em>i}=\sum</em>{j=1}^{n}\hat{y}^j\frac{ \partial lnf_{w,b}(x^j) }{\partial w<em>i}+(1-\hat{y}^j)\frac{\partial (1-lnf</em>{w,b}(x^j))}{\partial w_i} \$</p>
+<p>$\qquad \quad \quad \quad \, \frac{\partial lnf_{w,b}(x)}{\partial w<em>i}=\frac{\partial lnf</em>{w,b}(x)}{\partial z}*\frac{\partial z}{\partial w_i} \$</p>
+<p>$\qquad \qquad \qquad \qquad \quad =\frac{1}{f<em>{w,b}(x)}* \frac{\partial f</em>{w,b}(x)}{\partial z}*x_i \$</p>
+<p>$\qquad \qquad \qquad \qquad \quad =\frac{1}{f<em>{w,b}(x)}*f</em>{w,b}(x)<em>(1-f_{w,b}(x))</em>x_i \$</p>
+<p>$\qquad \qquad \qquad \qquad \quad =(1-f_{w,b}(x))*x_i \$</p>
+<p>$\quad \quad 同理 \,   \frac{\partial (1-lnf_{w,b}(x))}{\partial w<em>i}=f</em>{w,b}(x)*x_i \$<br>$\qquad 则化简后：$</p>
+<p>$\qquad \quad\,\, \qquad \frac{\partial lnL(w,b)}{\partial w<em>i}=\sum</em>{j=1}^{n}\hat{y}^j\frac{ \partial lnf_{w,b}(x^j) }{\partial w<em>i}+(1-\hat{y}^j)\frac{\partial (1-lnf</em>{w,b}(x^j))}{\partial w<em>i} \$<br>$\qquad \qquad \qquad \quad \qquad = \sum</em>{j=1}^{n}{\hat{y}^j(1-f_{w,b}(x^j))x^j<em>i+(1-\hat{y}^j)*f</em>{w,b}(x^j)x^j_i} \$</p>
+<p>$\qquad \qquad \quad\qquad \qquad = \sum<em>{j=1}^{n}(\hat{y}^j -f</em>{w,b}(x^j))x^j_i \$</p>
+<p>$\qquad b的推导与w的相似，可以得到w的更新迭代过程：w<em>{i} \leftarrow w</em>{i}-\alpha*\sum<em>{j=0}^{n}(\hat{y}^j-f</em>{w,b}(x^j))x^j_i \$</p>
+<table>
+<thead>
+<tr>
+<th>$\quad \, Step$</th>
+<th>$\qquad \qquad \qquad logistic \quad regression$</th>
+<th>$\quad  \qquad  linear \quad regression$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\quad functions$</td>
+<td>$\qquad \qquad\quad f<em>{w,b}(x) = \delta(\sum</em>{i=0}^{n}w_ix_i+b)$</td>
+<td>$\qquad \quad f<em>{w,b}(x) = \sum</em>{i=0}^{n}w_ix_i+b$</td>
+</tr>
+<tr>
+<td>$loss function$</td>
+<td>$\qquad \qquad\qquad\hat{y}:1 \,\, for\,\, C_1,0\,\, for \,\, C<em>2 \$    $\qquad \quad ln{L(w,b)} =\sum</em>{j=1}^{n}{\hat{y}^j\,lnf<em>{w,b}(x^j)+(1-\hat{y}^j)\,ln(1-f</em>{w,b}(x^j))}$</td>
+<td>$\qquad\quad \hat{y} : a \quad real\quad number \$ $\qquad \quad L(w,b) =\frac{1}{2} \sum<em>{j=1}^{n}(f</em>{w,b}(x^j)-\hat{y}^j)^2$</td>
+</tr>
+<tr>
+<td>$optimize$</td>
+<td>$\qquad \qquad\quad w<em>{i} \leftarrow w</em>{i}-\alpha*\sum<em>{j=0}^{n}(\hat{y}^j-f</em>{w,b}(x^j))x^j_i$</td>
+<td>$\qquad\quad w<em>{i} \leftarrow w</em>{i}-\alpha*\sum<em>{j=0}^{n}(\hat{y}^j-f</em>{w,b}(x^j))x^j_i$</td>
+</tr>
+</tbody>
+</table>
+<h3 id="思考题"><a href="#思考题" class="headerlink" title="$思考题$"></a>$思考题$</h3><h4 id="1-为什么选用-crossEntropy-损失函数，而不用L2损失函数"><a href="#1-为什么选用-crossEntropy-损失函数，而不用L2损失函数" class="headerlink" title="1. 为什么选用$crossEntropy$损失函数，而不用L2损失函数"></a>1. 为什么选用$crossEntropy$损失函数，而不用L2损失函数</h4><p>$\$</p>
+<p>$答:logistic不像linear \,\, regression使用L2损失函数的原因，主要是由于logistic的funcion的形式，\$<br>$由于sigmoid函数的存在，如果logistic采取L2 loss时，损失函数为：\$<br>$\qquad \qquad \frac{\partial (f_{w,b}(x)-\hat{y})^2}{\partial w<em>i}=2(f</em>{w,b}(x)-\hat{y})f<em>{w,b}(x)(1-f</em>{w,b}(x))x<em>i \$<br>$则当\hat{y}=1, f</em>{w,b}(x) = 1 \quad 预测为1 ，即预测完全正确时 \quad loss=0 \quad  \$<br>$但是当\hat{y}=1,f_{w,b}(x) = 0 \quad 预测为0 ，即预测完全错误时 \quad loss却依然为0 \quad显然不对 \$</p>
+<p>####2.<a href="https://www.zhihu.com/question/54707359" target="_blank" rel="external">$logistic \,\,regression$的分类概率为什么选取了$sigmoid$函数</a><br>$答: 我们假设样本的分布服从二次高斯分布，即\$</p>
+<p>$f_{\mu,\Sigma}(x) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp{-\frac{1}{2}(x-\mu)^T|\Sigma|^{-1}(x-\mu)},其中\mu为均值，\Sigma为协方差矩阵 \$</p>
+<p>$输入为x，输出f_{\mu,\Sigma}(x)为样本x的概率密度，高斯分布的形状分布取决于均值\mu和协方差矩阵\Sigma,因此需要求取最佳的高斯分布来满足样本的分布 \$</p>
+<p>$Maximum Likelihood : L(\mu,\Sigma) = f<em>{\mu,\Sigma}(x^1)f</em>{\mu,\Sigma}(x^2)f<em>{\mu,\Sigma}(x^3)\cdots\cdots\ f</em>{\mu,\Sigma}(x^{N}) \$<br>$\mu^<em>，\Sigma^</em> = arg\max\limits_{\mu,\Sigma}L(\mu,\Sigma) \$</p>
+<p>$\mu^* = \frac{1}{N}\sum_{i=0}^{N}{x^i}\$</p>
+<p>$\Sigma^<em> = \frac{1}{N}\sum_{i=0}^{N}{(x^i-\mu^</em>)(x^i-\mu^*)^T}\$</p>
+<p>$对于一个二分类，我们假设类别1的样本高斯分布的均值为\mu^1,类别2的样本的高斯分布均值为\mu^2,他们具有相同的协方差\Sigma \$</p>
+<p>$\mu^1 = \sum_{i=1}^{n_1} x_i\quad (x_i \in C<em>1) ; \mu^2 = \sum</em>{i=1}^{n_2} x_i\quad(x_i \in C<em>2) \$<br>$\Sigma^1 = \sum</em>{i=1}^{n_1}(x_i-u^1)(x<em>i-u^1)^T ;\quad \Sigma^2 = \sum</em>{i=1}^{n_2}(x_i-u^2)(x_i-u^2)^T\quad \Sigma=\frac{n_1}{n_1+n_2}\Sigma^1+\frac{n_1}{n_1+n_2}\Sigma^2 \$</p>
+<p>$对于样本x，如果属于C_1则有：\$</p>
+<p>$P(C<em>{1}|x) \,\,= \frac{P(C</em>{1},x)}{P(x)} \$</p>
+<p>$\qquad \qquad =\frac{P(x|C<em>{1})*P(C</em>{1})}{P(x|C<em>{1})*P(C</em>{1})+P(x|C<em>{2})*P(C</em>{2})} \$</p>
+<p>$\qquad \qquad =\frac{1}{1+\frac{P(x|C<em>{2})*P(C</em>{2})}{P(x|C<em>{1})*P(C</em>{1})}} \$</p>
+<p>$\qquad \qquad =\frac{1}{1+exp(-\alpha)} \$</p>
+<p>$\qquad 其中\,\, \alpha= \ln(\frac{P(x|C<em>{1})*P(C</em>{1})}{P(x|C<em>{2})*P(C</em>{2})})$</p>
+<p>$将P(x|C_i)带入高斯分布的公式:\$</p>
+<p>$P(x|C_1) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp{-\frac{1}{2}(x-\mu^1)^T|\Sigma|^{-1}(x-\mu^1)} \$<br>$P(x|C_2) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp{-\frac{1}{2}(x-\mu^2)^T|\Sigma|^{-1}(x-\mu^2)} \$<br>$P(C_1)=\frac{n_1}{n_1+n_2}\quad , \quad P(C_2)=\frac{n_2}{n_1+n_2} \$</p>
+<p>$\alpha= lnP(x|C_1)-lnP(x|C_2)+ln\frac{P(C_1)}{P(C_2)} \$</p>
+<p>$\quad =-\frac{1}{2}(x-\mu^1)^T|\Sigma|^{-1}(x-\mu^1)-(-\frac{1}{2}(x-\mu^2)^T|\Sigma|^{-1}(x-\mu^2))+ln\frac{n_1}{n_2}\$</p>
+<p>$\quad =-\frac{1}{2}x^T(\Sigma)^{-1}x+(u^1)^T(\Sigma)^{-1}x-\frac{1}{2}(u^1)^T(\Sigma)^{-1}u^1+\frac{1}{2}x^T(\Sigma)^{-1}x-(u^2)^T(\Sigma)^{-1}x+\frac{1}{2}(u^2)^T(\Sigma)^{-1}u^2+ln\frac{n_1}{n_2}\$</p>
+<p>$\quad = (u^1-u^2)^T(\Sigma)^{-1}x-\frac{1}{2}(u^1)^T(\Sigma)^{-1}u^1+\frac{1}{2}(u^2)^T(\Sigma)^{-1}u^2+ln\frac{n_1}{n_2}\$</p>
+<p>$\quad = wx+b\$</p>
+<p>$\quad w = (u^1-u^2)^T(\Sigma)^{-1} \quad ; \quad b=-\frac{1}{2}(u^1)^T(\Sigma)^{-1}u^1+\frac{1}{2}(u^2)^T(\Sigma)^{-1}u^2+ln\frac{n_1}{n_2} \$</p>
+<p>$\quad 因此可以得到对于满足猜想的二次高斯分布的datasets，生成模型的分类表达式与logistic是一致的 \$</p>
+<h3 id="生成model与判别model对比"><a href="#生成model与判别model对比" class="headerlink" title="$生成model与判别model对比$"></a>$生成model与判别model对比$</h3><p>######生成模型：基于现有的样本，对样本分布做了一个猜测（极大似然），因此当数据集较少，或者有噪声的时候，都能达到一个较好的结果(不过分依赖于实际样本),并且可以根据不同的概率model完成样本分布的gauss</p>
+<p>######判别模型：基于决策的方式（判别式），通过优化方法(sgd)寻找最优参数，对样本的依赖大，样本充足时，其效果一般比生成模型好(基于事实 not 基于猜测)</p>
+<h3 id="小扩展"><a href="#小扩展" class="headerlink" title="$小扩展$"></a>$小扩展$</h3><p>######1.多分类，基于先验概率得出的每个类别的后验概率为softmax函数，即：<br>$\$</p>
+<p>$\qquad \qquad \qquad \qquad \, P(C_i|x) = \frac{P(x|C_i)P(C<em>i)}{\sum</em>{j=1}^{n}P(x|C_j)P(C_j)}\$</p>
+<p>$\qquad \qquad \qquad \qquad \qquad \qquad = \frac{exp(a<em>k)}{\sum</em>{j=1}^{n}a_j}\$</p>
+<p>#####2.待续</p>
+]]></content>
+    
+    <summary type="html">
+    
+      Logistic回归分析
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="经典算法" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%BB%8F%E5%85%B8%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="Logistic" scheme="http://yoursite.com/tags/Logistic/"/>
+    
+      <category term="回归分析" scheme="http://yoursite.com/tags/%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用例子一步一步详解BP（后向传播）算法</title>
+    <link href="http://yoursite.com/2017/07/05/An-Example-of-Backpropagation/"/>
+    <id>http://yoursite.com/2017/07/05/An-Example-of-Backpropagation/</id>
+    <published>2017-07-05T03:35:15.000Z</published>
+    <updated>2017-07-05T03:42:40.865Z</updated>
+    
+    <summary type="html">
+    
+      使用例子一步一步详解BP（后向传播）算法
+    
+    </summary>
+    
+      <category term="深度学习" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="基础理论" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/"/>
+    
+      <category term="BP" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/BP/"/>
+    
+    
+      <category term="深度学习" scheme="http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="Backpropagation" scheme="http://yoursite.com/tags/Backpropagation/"/>
+    
+  </entry>
   
   <entry>
     <title>C/C++读写ini配置文件</title>
@@ -133,10 +260,10 @@
     <link href="http://yoursite.com/2017/06/20/deploy-blog-to-github/"/>
     <id>http://yoursite.com/2017/06/20/deploy-blog-to-github/</id>
     <published>2017-06-20T06:55:19.000Z</published>
-    <updated>2017-06-20T07:15:40.356Z</updated>
+    <updated>2017-07-05T03:38:04.817Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用Hexo发布静态博客到Github"><a href="#使用Hexo发布静态博客到Github" class="headerlink" title="使用Hexo发布静态博客到Github"></a>使用Hexo发布静态博客到Github</h1><h2 id="修改blog下的配置文件"><a href="#修改blog下的配置文件" class="headerlink" title="修改blog下的配置文件"></a>修改blog下的配置文件</h2><p><code>_config.yml</code> 文件的最后</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:hanchaow/hanchaow.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:hanchaow/hanchaow.github.io.git   //仓库所在目录</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
 <h2 id="使用git-bash发布博客"><a href="#使用git-bash发布博客" class="headerlink" title="使用git bash发布博客"></a>使用git bash发布博客</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div><div class="line">hexo d</div></pre></td></tr></table></figure>
 <h2 id="遇到的问题汇总"><a href="#遇到的问题汇总" class="headerlink" title="遇到的问题汇总"></a>遇到的问题汇总</h2><p>执行命令<code>hexo d</code>提示<code>Deployer not found: github</code>，解决方法：<code>_config.yml</code> 文件中的deploy type为 <code>git</code> 而不是 <code>giuthub</code></p>
 ]]></content>
@@ -251,7 +378,7 @@
     <link href="http://yoursite.com/2017/06/20/CreaateBlogUsingHexo/"/>
     <id>http://yoursite.com/2017/06/20/CreaateBlogUsingHexo/</id>
     <published>2017-06-20T00:57:59.000Z</published>
-    <updated>2017-06-20T08:00:25.970Z</updated>
+    <updated>2017-07-05T03:37:09.274Z</updated>
     
     <content type="html"><![CDATA[<h1 id="使用Hexo搭建自己的博客"><a href="#使用Hexo搭建自己的博客" class="headerlink" title="使用Hexo搭建自己的博客"></a>使用Hexo搭建自己的博客</h1><h2 id="前言-amp-amp-致谢"><a href="#前言-amp-amp-致谢" class="headerlink" title="前言 &amp;&amp; 致谢"></a>前言 &amp;&amp; 致谢</h2><ul>
 <li>感谢 <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a> : <code>A fast, simple &amp; powerful blog framework</code>(一个简单、快速、强大的博客发布工具，同时拥有众多的插件、优秀的主题，关键还支持Markdown，简直不能再酷)</li>
@@ -284,7 +411,7 @@
 <h4 id="下载主题"><a href="#下载主题" class="headerlink" title="下载主题"></a>下载主题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd themes</div><div class="line">git clone git@github.com:GeekaholicLin/hexo-theme-ylion.git</div></pre></td></tr></table></figure>
 <p>或者直接使用命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone git@github.com:GeekaholicLin/hexo-theme-ylion.git themes/ylion</div></pre></td></tr></table></figure>
-<h4 id="安装依赖（如果有的话，注意切换到你新建的blog目录）"><a href="#安装依赖（如果有的话，注意切换到你新建的blog目录）" class="headerlink" title="安装依赖（如果有的话，注意切换到你新建的blog目录）"></a>安装依赖（如果有的话，注意切换到你新建的blog目录）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">npm install hexo-renderer-ejs --save</div><div class="line">npm install hexo-renderer-less --save</div><div class="line">npm install hexo-generator-feed --save</div><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-deployer-git --save</div><div class="line">## 若node_module目录下无以下文件夹，也要进行安装</div><div class="line">## 注意ejs的版本问题(见issue 5)</div><div class="line">npm install ejs@^1.0.0 --save</div><div class="line">npm install moment --save</div><div class="line">npm install utils-merge --save</div></pre></td></tr></table></figure>
+<h4 id="安装依赖（如果有依赖的话，注意切换到你新建的blog目录）"><a href="#安装依赖（如果有依赖的话，注意切换到你新建的blog目录）" class="headerlink" title="安装依赖（如果有依赖的话，注意切换到你新建的blog目录）"></a>安装依赖（如果有依赖的话，注意切换到你新建的blog目录）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">npm install hexo-renderer-ejs --save</div><div class="line">npm install hexo-renderer-less --save</div><div class="line">npm install hexo-generator-feed --save</div><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-deployer-git --save</div><div class="line">npm install ejs@^1.0.0 --save</div><div class="line">npm install moment --save</div><div class="line">npm install utils-merge --save</div></pre></td></tr></table></figure>
 <h4 id="修改-blog目录下的全局配置文件：-config-yml"><a href="#修改-blog目录下的全局配置文件：-config-yml" class="headerlink" title="修改 blog目录下的全局配置文件：_config.yml"></a>修改 blog目录下的全局配置文件：<code>_config.yml</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">## Plugins: https://hexo.io/plugins/</div><div class="line">## Themes: https://hexo.io/themes/</div><div class="line">theme: ylion #要替换的主题名称（主题的目录名称）</div></pre></td></tr></table></figure>
 <h4 id="重新发布，测试效果："><a href="#重新发布，测试效果：" class="headerlink" title="重新发布，测试效果："></a>重新发布，测试效果：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s -p 4000 #指定端口</div></pre></td></tr></table></figure>
 <h2 id="小的建议"><a href="#小的建议" class="headerlink" title="小的建议"></a>小的建议</h2><h3 id="Hexo-常用命令汇总："><a href="#Hexo-常用命令汇总：" class="headerlink" title="Hexo 常用命令汇总："></a>Hexo 常用命令汇总：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">hexo new &quot;postName&quot; #新建文章</div><div class="line">hexo new page &quot;pageName&quot; #新建页面</div><div class="line">hexo generate #生成静态页面至public目录</div><div class="line">hexo server #开启预览访问端口（默认端口4000，&apos;ctrl + c&apos;关闭server）</div><div class="line">hexo deploy #部署到GitHub</div><div class="line">hexo help  # 查看帮助</div><div class="line">hexo version  #查看Hexo的版本</div></pre></td></tr></table></figure>

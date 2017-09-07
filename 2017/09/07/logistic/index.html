@@ -22,7 +22,7 @@
 <meta name="verify" content=all />
     <!--Title-->
 
-<title>C/C++读写ini配置文件 | Hank&#39;s Blog</title>
+<title>Logistic回归分析 | Hank&#39;s Blog</title>
 
 <link rel="alternate" href="/atom.xml" title="Hank&#39;s Blog" type="application/atom+xml">
 
@@ -201,9 +201,9 @@ Hank 的博客，尘世中一迷途小码农！<br />
     <article id="post">
         <div id="post-header">
 
-            <h1 id="C/C++读写ini配置文件">
+            <h1 id="Logistic回归分析">
                 
-                C/C++读写ini配置文件
+                Logistic回归分析
                 
             </h1>
             <div class="article-meta">
@@ -211,7 +211,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
     
     <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-        <span>文件操作</span>
+        <span>经典算法</span>
     </span>
     
     
@@ -219,7 +219,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
          <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            ini配置文件
+            Logistic
             
         </span>
     </span>
@@ -227,14 +227,14 @@ Hank 的博客，尘世中一迷途小码农！<br />
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta ">2017/06/30</span>
+        <span class="date-meta ">2017/09/07</span>
     </span>
     
     
     <span class="fa-wrap">
             <i class="fa fa-thermometer-three-quarters"></i>
-        <span class="hits hits-meta " data-leadcloud-title="C/C++读写ini配置文件"
-              data-leadcloud-url="/2017/06/30/program-language-c-cplus/"><i class="fa fa-spinner fa-spin"></i></span>
+        <span class="hits hits-meta " data-leadcloud-title="Logistic回归分析"
+              data-leadcloud-url="/2017/09/07/logistic/"><i class="fa fa-spinner fa-spin"></i></span>
     </span>
     
     
@@ -245,42 +245,81 @@ Hank 的博客，尘世中一迷途小码农！<br />
         </div>
         
         <div id="post-body">
-            <h1 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h1><p>最近使用C++写的一个小程序，输入是人脸框、头肩框的位置，根据人脸框和头肩框的位置实现人的跟踪，即输出是不同人脸框的跟踪号，为了保证跟踪号不丢、不重复、不交叉互换，设置了很多策略和阀值，考虑到阀值种类太多，为了测试出比较好的阀值，在实际测试过程中需要反复设置不同的阀值，为此，考虑使用ini配置文件的方式进行设置</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>第一次使用C++解析ini配置文件，这里首选使用微软在Windows下提供的api，毕竟站在巨人的肩膀上更容易成功（当然也可以自己造轮子实现一个ini文件的解析器）</p>
-<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#include &lt;Winbase.h&gt;  //VC中默认是包含该文件的</div></pre></td></tr></table></figure>
-<h2 id="API预览"><a href="#API预览" class="headerlink" title="API预览"></a>API预览</h2><p>Winbase.h 中提供了很多API函数来对ini配置文件进行读写，这里只介绍用的三个：</p>
-<ul>
-<li><code>GetPrivateProfileInt</code>       从私有初始化文件获取整型数值</li>
-<li><code>GetPrivateProfileString</code>  从私有初始化文件获取字符串型值</li>
-<li><code>WritePrivateProfileString</code> 写字符串到私有初始化文件</li>
-</ul>
-<h2 id="函数原型声明："><a href="#函数原型声明：" class="headerlink" title="函数原型声明："></a>函数原型声明：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UINT GetPrivateProfileInt(LPCTSTR lpAppName,LPCTSTR lpKeyName,INT nDefault,LPCTSTR lpFileName);</div><div class="line">DWORD GetPrivateProfileString(LPCTSTR lpAppName,LPCTSTR lpKeyName,LPCTSTR lpDefaut,LPSTR lpReturnedString,DWORD nSize,LPCTSTR lpFileName);//读取.ini文件</div><div class="line">bool WritePrivateProfileString(LPCTSTR lpAppName,LPCTSTR lpKeyName,LPCTSTR lpString,LPCTSTR lpFileName);</div></pre></td></tr></table></figure>
-<p>相关的参数解释：</p>
-<ul>
-<li>LPCTSTR lpAppName ： INI文件中的一个字段名</li>
-<li>LPCTSTR lpKeyName ： lpAppName 下的一个键名，也就是里面具体的变量名</li>
-<li>LPCTSTR lpString  ： 是键值，也就是变量的值， 必须为LPCTSTR或CString类型</li>
-<li>LPCTSTR lpFileName ：完整的INI文件路径名</li>
-<li>LPCTSTR lpDefaut ：如果没有其前两个参数值，则将此值赋给变量</li>
-<li>LPSTR lpReturnedString ： 接收INI文件中的值的CString对象，即接收缓冲区</li>
-<li>DWORD nSize ：接收缓冲区的大小</li>
-</ul>
-<h2 id="使用例子"><a href="#使用例子" class="headerlink" title="使用例子"></a>使用例子</h2><ol>
-<li>获取执行程序的路径</li>
-<li>获取执行程序的目录（通过查找\在字符串中最后一次出现的位置）</li>
-<li>组合成配置文件的路径（当前程序的路径）</li>
-<li>如果配置文件存在，则直接读取，否则新建一个配置文件</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">// 1. 得到exe执行路径.  </div><div class="line">LPTSTR lpPath = new char[MAX_PATH];</div><div class="line">GetModuleFileName(NULL, lpPath, MAX_PATH);</div><div class="line">	</div><div class="line">// 2. C语言strrchr()函数：查找某字符在字符串中最后一次出现的位置</div><div class="line">char *pFind = strrchr(lpPath, &apos;\\&apos;);</div><div class="line">if (pFind == NULL)</div><div class="line">&#123;</div><div class="line">	return;</div><div class="line">&#125;</div><div class="line">*pFind = &apos;\0&apos;;</div><div class="line"></div><div class="line">// 3. 组合成配置文件的路径</div><div class="line">strcat(lpPath, &quot;\\config.ini&quot;);</div><div class="line"></div><div class="line">// 4. 如果配置文件存在，则直接读取，否则新建一个配置文件</div><div class="line">if (!PathFileExists(lpPath)) //写操作</div><div class="line">&#123;</div><div class="line">	string null_line = &quot;\n&quot;;</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;Width&quot;, to_string(image_width).c_str(), lpPath);</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;Height&quot;, to_string(image_height).c_str(), lpPath);</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;TH_is_edge&quot;, to_string(TH_is_edge).c_str(), lpPath);</div><div class="line">	WritePrivateProfileString(&quot;Image&quot;, &quot;Rect_scale&quot;, (to_string(Rect_scale) + &quot;\n&quot;).c_str(), lpPath);</div><div class="line">	.....</div><div class="line"></div><div class="line">&#125;</div><div class="line">else  //读操作</div><div class="line">&#123;</div><div class="line">	image_width = GetPrivateProfileInt(&quot;Image&quot;, &quot;Width&quot;, 0, lpPath);</div><div class="line">	image_height = GetPrivateProfileInt(&quot;Image&quot;, &quot;Height&quot;, 0, lpPath);</div><div class="line">	TH_is_edge = GetPrivateProfileInt(&quot;Image&quot;, &quot;TH_is_edge&quot;, 0, lpPath);</div><div class="line"></div><div class="line">	LPTSTR lpFloat = new char[8];</div><div class="line">	GetPrivateProfileString(&quot;Image&quot;, &quot;Rect_scale&quot;, &quot;&quot;, lpFloat, 8, lpPath);</div><div class="line">	Rect_scale = atof(lpFloat);</div><div class="line"></div><div class="line">	GetPrivateProfileString(&quot;Overlap_Threhold&quot;, &quot;TH_face_to_face_1&quot;, &quot;&quot;, lpFloat,8, lpPath);</div><div class="line">	TH_face_to_face_1 = atof(lpFloat);</div><div class="line">	.....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p><img src="/images/C_C++/ini_example.png" alt=""></p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://en.wikipedia.org/wiki/INI_file" target="_blank" rel="external">Wikipedia: INI file</a></li>
-<li><a href="http://blog.chinaunix.net/uid-24517893-id-2973290.html" target="_blank" rel="external">利用GetPrivateProfileString读取配置文件(.ini) </a></li>
-<li><a href="http://www.cnblogs.com/it-duit/p/5632547.html" target="_blank" rel="external">C/C++ 关于如何读写ini配置文件 （小结）</a></li>
-<li><a href="http://www.cnblogs.com/lishennan/p/5165136.html" target="_blank" rel="external">C++ 读取INI文件</a></li>
-<li><a href="http://www.cnblogs.com/ZJoy/archive/2010/12/17/1909589.html" target="_blank" rel="external">C++读写ini配置文件GetPrivateProfileString()&amp;WritePrivateProfileString()</a></li>
-<li><a href="http://c.biancheng.net/cpp/html/172.html" target="_blank" rel="external">C语言strrchr()函数：查找某字符在字符串中最后一次出现的位置</a></li>
-</ul>
+            <p>#Logistic回归分析<br>$\qquad Logistic回归为概率型非线性回归模型，机器学习常用的二分类分类器，其表达式为：$</p>
+<p>$\quad \quad  z=w<em>{1}*x</em>{1}+w<em>{2}*x</em>{2}+\cdots+w<em>{n}*x</em>{n}+b=\sum<em>{i=0}^n w</em>{i}x<em>{i}  （其中 b等于w</em>{0}，x_{0}等于1）则: \$</p>
+<p>$$f(x) = \frac{1}{1+exp(-z)}$$</p>
+<p>$\quad \quad$即对于二分类，如果$f(x)\ge{0.5}$,则$x$属于第一类，即预测$y=1$，反之$x$属于第二类，预测$y=0$；样本的分布如下，其中，$C_1$表示第一个类别，$C_2$表示第二个类别，样本个数为$n$</p>
+<p>[<br>trainingData \quad\, x^1 \quad\, x^2 \quad\, x^3 \quad\,\cdots \quad\, x^n \\<br>\<br>\qquad  labels \qquad   \quad  C_1 \quad C_1 \quad C_2 \quad \cdots \quad C<em>1<br>]<br>$\qquad$我们的目的是：对于类别为$1$的正样本$f</em>{w,b}(x)$ 尽可能大,而类别为$2$的负样本$f<em>{w,b}(x)$ 尽可能小,则我们需要最大化：$L(w,b)=f</em>{w,b}(x^1)f<em>{w,b}(x^2)(1-f</em>{w,b}(x^3))\cdots\ f<em>{w,b}(x^n)$<br>来寻找最佳的$w$和$b$<br>[<br>w^<em>,b^</em> = arg\max\limits</em>{w,b}(L(w,b))\Longrightarrow\ w^<em>,b^</em> = arg\min\limits_{w,b}(-ln{L(w,b)})<br>]</p>
+<p><a href="https://zh.wikipedia.org/zh-hans/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95" target="_blank" rel="external">随机梯度下降法</a></p>
+<p>$\qquad 我们需要优化的函数：-ln{L(w,b)} = -{ln{f<em>{w,b}(x^1)}+lnf</em>{w,b}(x^2)+ln(1-f<em>{w,b}(x^3))+\cdots lnf</em>{w,b}(x^n)}\quad \$<br>$$<br>\qquad 假设：<br>\begin{cases}<br>\hat{y} = 1 \qquad \qquad x\in1 \\<br>\<br>\hat{y} = 0 \qquad \qquad x\in0<br>\end{cases}<br>\qquad 已知\,f(x) = \frac{1}{1+exp(-z)}\quad z = \sum<em>{i=0}^n  w</em>{i}x<em>{i} \qquad 则<br>$$<br>$\qquad 我们需要优化的函数简化为：ln{L(w,b)} =\sum</em>{j=1}^{n}{\hat{y}^j\,lnf<em>{w,b}(x^j)+(1-\hat{y}^j)\,ln(1-f</em>{w,b}(x^j))} \$</p>
+<p>$\qquad 当\,\,\hat{y}=1时\quad \hat{y}\,lnf<em>{w,b}(x)+(1-\hat y)\,ln(1-f</em>{w,b}(x)) = lnf<em>{w,b}(x) \$<br>$\qquad 当\,\,\hat{y}=0时\quad \hat{y}\,lnf</em>{w,b}(x)+(1-\hat y)\,ln(1-f<em>{w,b}(x)) = ln(1-f</em>{w,b}(x)) \qquad \$</p>
+<p>$\qquad 即均满足上式 , 因此:$</p>
+<p>$\qquad \qquad \quad \frac{\partial lnL(w,b)}{\partial w<em>i}=\sum</em>{j=1}^{n}\hat{y}^j\frac{ \partial lnf_{w,b}(x^j) }{\partial w<em>i}+(1-\hat{y}^j)\frac{\partial (1-lnf</em>{w,b}(x^j))}{\partial w_i} \$</p>
+<p>$\qquad \quad \quad \quad \, \frac{\partial lnf_{w,b}(x)}{\partial w<em>i}=\frac{\partial lnf</em>{w,b}(x)}{\partial z}*\frac{\partial z}{\partial w_i} \$</p>
+<p>$\qquad \qquad \qquad \qquad \quad =\frac{1}{f<em>{w,b}(x)}* \frac{\partial f</em>{w,b}(x)}{\partial z}*x_i \$</p>
+<p>$\qquad \qquad \qquad \qquad \quad =\frac{1}{f<em>{w,b}(x)}*f</em>{w,b}(x)<em>(1-f_{w,b}(x))</em>x_i \$</p>
+<p>$\qquad \qquad \qquad \qquad \quad =(1-f_{w,b}(x))*x_i \$</p>
+<p>$\quad \quad 同理 \,   \frac{\partial (1-lnf_{w,b}(x))}{\partial w<em>i}=f</em>{w,b}(x)*x_i \$<br>$\qquad 则化简后：$</p>
+<p>$\qquad \quad\,\, \qquad \frac{\partial lnL(w,b)}{\partial w<em>i}=\sum</em>{j=1}^{n}\hat{y}^j\frac{ \partial lnf_{w,b}(x^j) }{\partial w<em>i}+(1-\hat{y}^j)\frac{\partial (1-lnf</em>{w,b}(x^j))}{\partial w<em>i} \$<br>$\qquad \qquad \qquad \quad \qquad = \sum</em>{j=1}^{n}{\hat{y}^j(1-f_{w,b}(x^j))x^j<em>i+(1-\hat{y}^j)*f</em>{w,b}(x^j)x^j_i} \$</p>
+<p>$\qquad \qquad \quad\qquad \qquad = \sum<em>{j=1}^{n}(\hat{y}^j -f</em>{w,b}(x^j))x^j_i \$</p>
+<p>$\qquad b的推导与w的相似，可以得到w的更新迭代过程：w<em>{i} \leftarrow w</em>{i}-\alpha*\sum<em>{j=0}^{n}(\hat{y}^j-f</em>{w,b}(x^j))x^j_i \$</p>
+<table>
+<thead>
+<tr>
+<th>$\quad \, Step$</th>
+<th>$\qquad \qquad \qquad logistic \quad regression$</th>
+<th>$\quad  \qquad  linear \quad regression$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\quad functions$</td>
+<td>$\qquad \qquad\quad f<em>{w,b}(x) = \delta(\sum</em>{i=0}^{n}w_ix_i+b)$</td>
+<td>$\qquad \quad f<em>{w,b}(x) = \sum</em>{i=0}^{n}w_ix_i+b$</td>
+</tr>
+<tr>
+<td>$loss function$</td>
+<td>$\qquad \qquad\qquad\hat{y}:1 \,\, for\,\, C_1,0\,\, for \,\, C<em>2 \$    $\qquad \quad ln{L(w,b)} =\sum</em>{j=1}^{n}{\hat{y}^j\,lnf<em>{w,b}(x^j)+(1-\hat{y}^j)\,ln(1-f</em>{w,b}(x^j))}$</td>
+<td>$\qquad\quad \hat{y} : a \quad real\quad number \$ $\qquad \quad L(w,b) =\frac{1}{2} \sum<em>{j=1}^{n}(f</em>{w,b}(x^j)-\hat{y}^j)^2$</td>
+</tr>
+<tr>
+<td>$optimize$</td>
+<td>$\qquad \qquad\quad w<em>{i} \leftarrow w</em>{i}-\alpha*\sum<em>{j=0}^{n}(\hat{y}^j-f</em>{w,b}(x^j))x^j_i$</td>
+<td>$\qquad\quad w<em>{i} \leftarrow w</em>{i}-\alpha*\sum<em>{j=0}^{n}(\hat{y}^j-f</em>{w,b}(x^j))x^j_i$</td>
+</tr>
+</tbody>
+</table>
+<h3 id="思考题"><a href="#思考题" class="headerlink" title="$思考题$"></a>$思考题$</h3><h4 id="1-为什么选用-crossEntropy-损失函数，而不用L2损失函数"><a href="#1-为什么选用-crossEntropy-损失函数，而不用L2损失函数" class="headerlink" title="1. 为什么选用$crossEntropy$损失函数，而不用L2损失函数"></a>1. 为什么选用$crossEntropy$损失函数，而不用L2损失函数</h4><p>$\$</p>
+<p>$答:logistic不像linear \,\, regression使用L2损失函数的原因，主要是由于logistic的funcion的形式，\$<br>$由于sigmoid函数的存在，如果logistic采取L2 loss时，损失函数为：\$<br>$\qquad \qquad \frac{\partial (f_{w,b}(x)-\hat{y})^2}{\partial w<em>i}=2(f</em>{w,b}(x)-\hat{y})f<em>{w,b}(x)(1-f</em>{w,b}(x))x<em>i \$<br>$则当\hat{y}=1, f</em>{w,b}(x) = 1 \quad 预测为1 ，即预测完全正确时 \quad loss=0 \quad  \$<br>$但是当\hat{y}=1,f_{w,b}(x) = 0 \quad 预测为0 ，即预测完全错误时 \quad loss却依然为0 \quad显然不对 \$</p>
+<p>####2.<a href="https://www.zhihu.com/question/54707359" target="_blank" rel="external">$logistic \,\,regression$的分类概率为什么选取了$sigmoid$函数</a><br>$答: 我们假设样本的分布服从二次高斯分布，即\$</p>
+<p>$f_{\mu,\Sigma}(x) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp{-\frac{1}{2}(x-\mu)^T|\Sigma|^{-1}(x-\mu)},其中\mu为均值，\Sigma为协方差矩阵 \$</p>
+<p>$输入为x，输出f_{\mu,\Sigma}(x)为样本x的概率密度，高斯分布的形状分布取决于均值\mu和协方差矩阵\Sigma,因此需要求取最佳的高斯分布来满足样本的分布 \$</p>
+<p>$Maximum Likelihood : L(\mu,\Sigma) = f<em>{\mu,\Sigma}(x^1)f</em>{\mu,\Sigma}(x^2)f<em>{\mu,\Sigma}(x^3)\cdots\cdots\ f</em>{\mu,\Sigma}(x^{N}) \$<br>$\mu^<em>，\Sigma^</em> = arg\max\limits_{\mu,\Sigma}L(\mu,\Sigma) \$</p>
+<p>$\mu^* = \frac{1}{N}\sum_{i=0}^{N}{x^i}\$</p>
+<p>$\Sigma^<em> = \frac{1}{N}\sum_{i=0}^{N}{(x^i-\mu^</em>)(x^i-\mu^*)^T}\$</p>
+<p>$对于一个二分类，我们假设类别1的样本高斯分布的均值为\mu^1,类别2的样本的高斯分布均值为\mu^2,他们具有相同的协方差\Sigma \$</p>
+<p>$\mu^1 = \sum_{i=1}^{n_1} x_i\quad (x_i \in C<em>1) ; \mu^2 = \sum</em>{i=1}^{n_2} x_i\quad(x_i \in C<em>2) \$<br>$\Sigma^1 = \sum</em>{i=1}^{n_1}(x_i-u^1)(x<em>i-u^1)^T ;\quad \Sigma^2 = \sum</em>{i=1}^{n_2}(x_i-u^2)(x_i-u^2)^T\quad \Sigma=\frac{n_1}{n_1+n_2}\Sigma^1+\frac{n_1}{n_1+n_2}\Sigma^2 \$</p>
+<p>$对于样本x，如果属于C_1则有：\$</p>
+<p>$P(C<em>{1}|x) \,\,= \frac{P(C</em>{1},x)}{P(x)} \$</p>
+<p>$\qquad \qquad =\frac{P(x|C<em>{1})*P(C</em>{1})}{P(x|C<em>{1})*P(C</em>{1})+P(x|C<em>{2})*P(C</em>{2})} \$</p>
+<p>$\qquad \qquad =\frac{1}{1+\frac{P(x|C<em>{2})*P(C</em>{2})}{P(x|C<em>{1})*P(C</em>{1})}} \$</p>
+<p>$\qquad \qquad =\frac{1}{1+exp(-\alpha)} \$</p>
+<p>$\qquad 其中\,\, \alpha= \ln(\frac{P(x|C<em>{1})*P(C</em>{1})}{P(x|C<em>{2})*P(C</em>{2})})$</p>
+<p>$将P(x|C_i)带入高斯分布的公式:\$</p>
+<p>$P(x|C_1) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp{-\frac{1}{2}(x-\mu^1)^T|\Sigma|^{-1}(x-\mu^1)} \$<br>$P(x|C_2) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}exp{-\frac{1}{2}(x-\mu^2)^T|\Sigma|^{-1}(x-\mu^2)} \$<br>$P(C_1)=\frac{n_1}{n_1+n_2}\quad , \quad P(C_2)=\frac{n_2}{n_1+n_2} \$</p>
+<p>$\alpha= lnP(x|C_1)-lnP(x|C_2)+ln\frac{P(C_1)}{P(C_2)} \$</p>
+<p>$\quad =-\frac{1}{2}(x-\mu^1)^T|\Sigma|^{-1}(x-\mu^1)-(-\frac{1}{2}(x-\mu^2)^T|\Sigma|^{-1}(x-\mu^2))+ln\frac{n_1}{n_2}\$</p>
+<p>$\quad =-\frac{1}{2}x^T(\Sigma)^{-1}x+(u^1)^T(\Sigma)^{-1}x-\frac{1}{2}(u^1)^T(\Sigma)^{-1}u^1+\frac{1}{2}x^T(\Sigma)^{-1}x-(u^2)^T(\Sigma)^{-1}x+\frac{1}{2}(u^2)^T(\Sigma)^{-1}u^2+ln\frac{n_1}{n_2}\$</p>
+<p>$\quad = (u^1-u^2)^T(\Sigma)^{-1}x-\frac{1}{2}(u^1)^T(\Sigma)^{-1}u^1+\frac{1}{2}(u^2)^T(\Sigma)^{-1}u^2+ln\frac{n_1}{n_2}\$</p>
+<p>$\quad = wx+b\$</p>
+<p>$\quad w = (u^1-u^2)^T(\Sigma)^{-1} \quad ; \quad b=-\frac{1}{2}(u^1)^T(\Sigma)^{-1}u^1+\frac{1}{2}(u^2)^T(\Sigma)^{-1}u^2+ln\frac{n_1}{n_2} \$</p>
+<p>$\quad 因此可以得到对于满足猜想的二次高斯分布的datasets，生成模型的分类表达式与logistic是一致的 \$</p>
+<h3 id="生成model与判别model对比"><a href="#生成model与判别model对比" class="headerlink" title="$生成model与判别model对比$"></a>$生成model与判别model对比$</h3><p>######生成模型：基于现有的样本，对样本分布做了一个猜测（极大似然），因此当数据集较少，或者有噪声的时候，都能达到一个较好的结果(不过分依赖于实际样本),并且可以根据不同的概率model完成样本分布的gauss</p>
+<p>######判别模型：基于决策的方式（判别式），通过优化方法(sgd)寻找最优参数，对样本的依赖大，样本充足时，其效果一般比生成模型好(基于事实 not 基于猜测)</p>
+<h3 id="小扩展"><a href="#小扩展" class="headerlink" title="$小扩展$"></a>$小扩展$</h3><p>######1.多分类，基于先验概率得出的每个类别的后验概率为softmax函数，即：<br>$\$</p>
+<p>$\qquad \qquad \qquad \qquad \, P(C_i|x) = \frac{P(x|C_i)P(C<em>i)}{\sum</em>{j=1}^{n}P(x|C_j)P(C_j)}\$</p>
+<p>$\qquad \qquad \qquad \qquad \qquad \qquad = \frac{exp(a<em>k)}{\sum</em>{j=1}^{n}a_j}\$</p>
+<p>#####2.待续</p>
 
         </div>
         <div id="post-footer">
@@ -298,26 +337,24 @@ Hank 的博客，尘世中一迷途小码农！<br />
                     
                     <a href="/about.html">Hanchaow</a>
                 </li>
-                <li>发表日期: <span>2017-06-30  09:43:01</span></li>
+                <li>发表日期: <span>2017-09-07  09:45:01</span></li>
                 
-                <li>最后编辑日期: <span>2017-06-30  10:36:59</span></li>
+                <li>最后编辑日期: <span>2017-09-07  09:47:57</span></li>
                 
                 <li class="post-category">
                     文章分类:
                     
-                    <a href="/categories/编程语言/">编程语言</a>
+                    <a href="/categories/机器学习/">机器学习</a>
                     
-                    <a href="/categories/编程语言/C-C/">C_C++</a>
-                    
-                    <a href="/categories/编程语言/C-C/文件操作/">文件操作</a>
+                    <a href="/categories/机器学习/经典算法/">经典算法</a>
                     
                 </li>
                 <li class="post-tags">
                     文章标签:
                     
-                    <a href="/tags/ini配置文件/">ini配置文件</a>
+                    <a href="/tags/Logistic/">Logistic</a>
                     
-                    <a href="/tags/GetPrivateProfileString/">GetPrivateProfileString</a>
+                    <a href="/tags/回归分析/">回归分析</a>
                     
                 </li>
                 
@@ -340,10 +377,8 @@ Hank 的博客，尘世中一迷途小码农！<br />
     </article>
     <div class="article-nav">
         
-        <a href="/2017/07/05/An-Example-of-Backpropagation/" class="pre-post fa fa-caret-left">使用例子一步一步详解BP（后向传播）算法</a>
         
-        
-        <a href="/2017/06/30/program-language-csharp/" class="next-post fa">解决C#程序多个进程同时打开同一个文件报错</a>
+        <a href="/2017/07/05/An-Example-of-Backpropagation/" class="next-post fa">使用例子一步一步详解BP（后向传播）算法</a>
         
     </div>
     
@@ -424,7 +459,7 @@ Hank 的博客，尘世中一迷途小码农！<br />
     </div>
 </div>
 
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#问题由来"><span class="toc-number">1.</span> <span class="toc-text">问题由来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决方案"><span class="toc-number">2.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#头文件"><span class="toc-number">2.1.</span> <span class="toc-text">头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#API预览"><span class="toc-number">2.2.</span> <span class="toc-text">API预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数原型声明："><span class="toc-number">2.3.</span> <span class="toc-text">函数原型声明：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用例子"><span class="toc-number">2.4.</span> <span class="toc-text">使用例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#效果预览"><span class="toc-number">2.5.</span> <span class="toc-text">效果预览</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">3.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#思考题"><span class="toc-number">1.</span> <span class="toc-text">$思考题$</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-为什么选用-crossEntropy-损失函数，而不用L2损失函数"><span class="toc-number">1.1.</span> <span class="toc-text">1. 为什么选用$crossEntropy$损失函数，而不用L2损失函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成model与判别model对比"><span class="toc-number">2.</span> <span class="toc-text">$生成model与判别model对比$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小扩展"><span class="toc-number">3.</span> <span class="toc-text">$小扩展$</span></a></li></ol>
 
 
     <script src="/js/highsong.js"></script>

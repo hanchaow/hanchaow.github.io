@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/09/07/logistic/</loc>
+    
+    <lastmod>2017-09-07T13:47:57.444Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/07/05/An-Example-of-Backpropagation/</loc>
+    
+    <lastmod>2017-07-05T03:42:40.865Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/20/deploy-blog-to-github/</loc>
+    
+    <lastmod>2017-07-05T03:38:04.817Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/20/CreaateBlogUsingHexo/</loc>
+    
+    <lastmod>2017-07-05T03:37:09.274Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/06/30/program-language-csharp/</loc>
     
     <lastmod>2017-06-30T02:40:54.480Z</lastmod>
@@ -12,20 +40,6 @@
     <loc>http://yoursite.com/2017/06/30/program-language-c-cplus/</loc>
     
     <lastmod>2017-06-30T02:36:59.335Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/06/20/CreaateBlogUsingHexo/</loc>
-    
-    <lastmod>2017-06-20T08:00:25.970Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/06/20/deploy-blog-to-github/</loc>
-    
-    <lastmod>2017-06-20T07:15:40.356Z</lastmod>
     
   </url>
   
