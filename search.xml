@@ -3,6 +3,180 @@
     
     
     <entry>
+        <title><![CDATA[Caffe之SoftmaxWithLossLayer原理推导和代码解析]]></title>
+        <url>http://yoursite.com/2017/10/20/Caffe_SoftmaxLossLayer/</url>
+        <content type="html"><![CDATA[<h1 id="Caffe之-SoftmaxWithLossLayer-原理推导和代码解析"><a href="#Caffe之-SoftmaxWithLossLayer-原理推导和代码解析" class="headerlink" title="Caffe之 SoftmaxWithLossLayer 原理推导和代码解析"></a>Caffe之 SoftmaxWithLossLayer 原理推导和代码解析</h1><p>前言：我们都知道在使用Caffe训练分类模型时，经常使用的 <code>Loss</code>是 <code>SoftmaxWithLoss</code>, 其具体实现是caffe的 <code>SoftmaxWithLossLayer</code> 类，源代码参考文件：</p>
+<ul>
+<li>softmax_layer.h、softmax_layer.cpp</li>
+<li>softmax_loss_layer.h、softmax_loss_layer.cpp</li>
+</ul>
+<p>那么，究竟什么是SoftmaxWithLoss，其原理是什么，Caffe中又是如何实现的？本文将逐一揭开SoftmaxWithLoss的神秘面纱……</p>
+<h2 id="SoftmaxWithLoss"><a href="#SoftmaxWithLoss" class="headerlink" title="SoftmaxWithLoss"></a>SoftmaxWithLoss</h2><p>SoftmaxWithLoss可以用如下公式表示：</p>
+<script type="math/tex; mode=display">
+SoftmaxWithLoss \quad = \quad Softmax  \quad + \quad Cross-Entropy Loss \\</script><p>可以看出，SoftmaxWithLoss包含两部分：</p>
+<ul>
+<li>Softmax：将一串数字转化为一个概率分布</li>
+<li>Cross-Entropy Loss：交叉熵Loss函数</li>
+</ul>
+<h3 id="SoftmaxWithLoss-之-Softmax"><a href="#SoftmaxWithLoss-之-Softmax" class="headerlink" title="SoftmaxWithLoss 之 Softmax"></a>SoftmaxWithLoss 之 Softmax</h3><p>我们先简单介绍下Softmax。</p>
+<p>上面提到Softmax就是将一串数字转化为一个概率分布，直观地去理解就是，在做分类模型时，给定一个输入（或者样本），给出一串概率值，其中每个值分别代表着属于某一类的概率；理想的情况是每个样本属于其真实类别的概率值为1，而属于其他类别的概率值为0。</p>
+<p>Softmax从直观上给出了某个样本属于某个类别的概率值，其具体的公式如下：</p>
+<p>$假设输入一串数字：\quad  input \quad = \quad [a_1, a_2, a_3, …, a_i,…,a_n] \$</p>
+<p>$做两个操作：$</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+\;  & a_i & = & \quad  a_i - max(a_1, a_2, a_3, ..., a_i,...,a_n)  & \qquad(1)\\
+\;  & f(a_i)  & = & \quad \frac{e^{a_i}}{\sum_{1}^{n} e^{a_j}}  & \qquad(2)\\
+
+\end{aligned}
+\right.</script><p>上述两步变换就是Softmax所做的具体（全部）事情：将输入 $a_i$ 变成了一个概率值 $p_i = f(a_i) =\frac{e^{a_i}}{\sum_{1}^{n} e^{a_j}}$</p>
+<h3 id="SoftmaxWithLoss-之-Cross-Entropy"><a href="#SoftmaxWithLoss-之-Cross-Entropy" class="headerlink" title="SoftmaxWithLoss 之 Cross-Entropy"></a>SoftmaxWithLoss 之 Cross-Entropy</h3><p>信息熵是信息学领域由香浓提出来的，反映着信息的不确定性，具体公式是：</p>
+<script type="math/tex; mode=display">
+H \; = \; -\sum_{i=1}^{n} \; p(x_i) \dot \; log \; p(x_i)</script><p>类似地，对于分类问题，假设已知样本在每个类别上的概率分布和其真实label，我们定义交叉熵损失（代价）函数：</p>
+<script type="math/tex; mode=display">
+Loss \; = \; -\sum_{i=1}^{n} \; y_i \; \cdot \; log \; p_i  \quad = \quad -log \; p_i\\</script><p>其中 $y_i$ ：</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+\; & y_i & = & \quad1 \quad ，\quad当i是样本的真实label时\\
+\; & y_i & = &\quad 0 \quad ，\quad当i不是样本的真实label时\\
+\end{aligned}
+\right.</script><p>$而，p_i:是样本属于真实标签  i  的概率值$</p>
+<h3 id="Softmax-Cross-Entropy"><a href="#Softmax-Cross-Entropy" class="headerlink" title="Softmax + Cross-Entropy"></a>Softmax + Cross-Entropy</h3><p>把两个串起来，就可以得到 SoftmaxWithLoss 公式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Loss \quad & = \quad -log \; p_i \\
+& = \quad -log \; f(a_i)  \\
+& = \quad -log \; \frac{e^{a_i}}{\sum_{1}^{n} e^{a_j}}\\
+& = \quad -a_i + log \;\sum_{1}^{n} e^{a_j}
+\end{aligned}</script><p>接下来，我们继续推导 $Loss$ 对任意输入 $a_k$ 的偏微分：$\frac{\partial L}{\partial a_k}$ :</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial L}{\partial a_k} \quad & =  \frac{\partial }{\partial a_k} \;(-a_i + log \;\sum_{1}^{n} e^{a_j}) \\
+& = \frac{\partial (-a_i)}{\partial a_k} \; + \frac{\partial (log \; \sum_{1}^{n} e^{a_j})}{\partial a_k}\\
+& = \frac{\partial (-a_i)}{\partial a_k} \; + \frac{1}{ \sum_{1}^{n} e^{a_j}} \;\cdot \frac{\partial ( \sum_{1}^{n} e^{a_j})}{\partial a_k}\\
+& = \frac{\partial (-a_i)}{\partial a_k} \; + \frac{1}{ \sum_{1}^{n} e^{a_j}} \;\cdot \frac{\partial }{\partial a_k} \;(e^{a_1} + e^{a_2} + ... + e^{a_k} + ... + e^{a_n}) \\
+
+& = \frac{\partial (-a_i)}{\partial a_k} \; + \frac{1}{ \sum_{1}^{n} e^{a_j}} \;\cdot \frac{\partial }{\partial a_k} \;(e^{a_k}) \\
+& = \frac{\partial (-a_i)}{\partial a_k} \; + \frac{e^{a_k}}{\sum_{1}^{n} e^{a_j}}\\
+& = \frac{\partial (-a_i)}{\partial a_k} \; + f(a_k)\\
+\end{aligned}</script><p>$分两种情况：\quad k \;=\; i  \quad和\quad k \; != \; i$</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+\frac{\partial L}{\partial a_k} \quad & = \quad -1 + f(a_k) & = & \quad p_i -1  & ( & k \;=\; i \;即k是样本的真实label) \\
+\frac{\partial L}{\partial a_k} \quad & = \quad 0 + f(a_k)  & = & \quad p_i & ( &k \; != \; i \;即k不是样本的真实labe)\\
+\end{aligned}
+\right.</script><p>Ok，SoftamxWithLoss的基本原理大致如此，等后期会陆续解释为什么要用Softmax，以及为什么要用Cross-Entropy代价函数。考虑到本篇文章的主题，这里不再接受，接下来我们看下Caffe中的源码是如何具体实现的。</p>
+<h2 id="Caffe源码之-SoftamxWithLossLayer"><a href="#Caffe源码之-SoftamxWithLossLayer" class="headerlink" title="Caffe源码之 SoftamxWithLossLayer"></a>Caffe源码之 SoftamxWithLossLayer</h2><p>Caffe中的 SoftamxWithLossLayer 实现文件是在 include和src \layers目录下的softmax_loss_layer.h和softmax_loss_layer.cpp，由于Caffe中已经有SoftamaxLayer，所以为了代码（模块）复用，在实现 SoftamxWithLossLayer时直接使用 SoftamaxLayer 这个类，整体来讲：</p>
+<script type="math/tex; mode=display">
+SoftamxWithLossLayer \quad = \quad SoftamaxLayer的 Forward() \quad +  \quad 全部的Backward</script><p>接下来，我们按照下面的条目把 SoftamxWithLossLayer 拆开讲解：</p>
+<ul>
+<li>Layer的 bottom 、top 以及关键变量介绍</li>
+<li>Layer的 LayerSetUp()方法</li>
+<li>Layer的 Reshape()方法</li>
+<li>Layer的 Forward_cpu()方法</li>
+<li>Layer的 Backward_cpu()方法</li>
+</ul>
+<h3 id="SoftamxWithLossLayer-之输入输出和关键变量"><a href="#SoftamxWithLossLayer-之输入输出和关键变量" class="headerlink" title="SoftamxWithLossLayer 之输入输出和关键变量"></a>SoftamxWithLossLayer 之输入输出和关键变量</h3><p><em>1.</em> SoftamxWithLossLayer 之输入：<strong>bottom</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明</span></div><div class="line"><span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom</div><div class="line"></div><div class="line"><span class="comment">//backward部分代码</span></div><div class="line">Dtype* bottom_diff = bottom[<span class="number">0</span>]-&gt;mutable_cpu_diff();</div><div class="line"><span class="keyword">const</span> Dtype* prob_data = prob_.cpu_data();</div><div class="line">caffe_copy(prob_.count(), prob_data, bottom_diff);</div><div class="line"><span class="keyword">const</span> Dtype* label = bottom[<span class="number">1</span>]-&gt;cpu_data();</div></pre></td></tr></table></figure>
+<p>bottom 类型是Blob的一个vector，作为 SoftamxWithLossLayer的输入，包括两个元素：</p>
+<ul>
+<li>bottom[0]，这个blob 包括 data 和 diff 两块存储空间（详细请参考blob的源码）：<ul>
+<li>data 是 Layer 前向传播的输入，即理论所讲的 $一串数字（一般是全连接的输出）：\quad [a_1, a_2, a_3, …, a_i,…,a_n]$ ，注意，每个样本都有一串数字，所以data的大小一般是 N*C，N 是样本数，C 是输入的元素数目即 n</li>
+<li>diff 是 Layer 反向传播的输出，用于将Loss的梯度向后传播，其值是理论所讲的 $\frac{\partial L}{\partial a_k}$</li>
+</ul>
+</li>
+<li>bottom[1]，这个blob的 data 存储的是每个样本的真实label，其大小是 N，同样N是样本数</li>
+</ul>
+<p><em>2.</em> SoftamxWithLossLayer 之输出：<strong>top</strong><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//声明</span></div><div class="line"><span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top</div><div class="line"></div><div class="line"><span class="comment">//forward部分代码</span></div><div class="line">top[<span class="number">0</span>]-&gt;mutable_cpu_data()[<span class="number">0</span>] = loss / get_normalizer(normalization_, count);</div><div class="line"> <span class="keyword">if</span> (top.size() == <span class="number">2</span>) &#123;</div><div class="line">   top[<span class="number">1</span>]-&gt;ShareData(prob_);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>top 的类型同样是是Bolob的一个vector，作为 SoftamxWithLossLayer 的输出：</p>
+<ul>
+<li>如果top的 size = 1，那么 top[0] 只存储 SoftamxWithLossLayer的输出（data域），即loss值，对应于理论所讲的 $-log\;p_i$</li>
+<li>如果top的 size = 2， 那么 top[1]还会存储 SoftamxWith 预测的概率值prob_ （data域），即 $p_i$</li>
+</ul>
+<p><em>3.</em> SoftamxWithLossLayer 之 <strong>关键变量</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// The internal SoftmaxLayer used to map predictions to a distribution.</span></div><div class="line"><span class="built_in">shared_ptr</span>&lt;Layer&lt;Dtype&gt; &gt; softmax_layer_;</div><div class="line"><span class="comment">/// prob stores the output probability predictions from the SoftmaxLayer.</span></div><div class="line">Blob&lt;Dtype&gt; prob_;  </div><div class="line"><span class="comment">/// bottom vector holder used in call to the underlying SoftmaxLayer::Forward</span></div><div class="line"><span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt; softmax_bottom_vec_;</div><div class="line"><span class="comment">/// top vector holder used in call to the underlying SoftmaxLayer::Forward</span></div><div class="line"><span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt; softmax_top_vec_;</div><div class="line"><span class="comment">/// Whether to ignore instances with a certain label.</span></div><div class="line"><span class="keyword">bool</span> has_ignore_label_;</div><div class="line"><span class="comment">/// The label indicating that an instance should be ignored.</span></div><div class="line"><span class="keyword">int</span> ignore_label_;</div><div class="line"><span class="comment">/// How to normalize the output loss.</span></div><div class="line">LossParameter_NormalizationMode normalization_;</div><div class="line"></div><div class="line"><span class="keyword">int</span> softmax_axis_, outer_num_, inner_num_;</div></pre></td></tr></table></figure>
+<ul>
+<li>softmax_layer_ ： SoftmaxLayer ，用于将预测结果（全连接的输出）映射为一个概率分布</li>
+<li>prob_ ：SoftmaxLayer的输出，即预测的概率值</li>
+<li>softmax_bottom_vec_ ： SoftmaxLayer 的 bottom</li>
+<li>softmax_top_vec_ : SoftmaxLayer 的 top</li>
+<li>has_ignore_label_ ： 是否有label需要忽略</li>
+<li>ignore_label_ ：要忽略的 label</li>
+<li>normalization_ : loss的归一化方式</li>
+<li>softmax_axis_ ： 哪一个维度要做softmax，一般是是 C (Caffe中的blob结构一般是 N<em>C</em>H*W)</li>
+<li>outer_num_ : 一般是 N</li>
+<li>inner_num_ : 一般是 H*W</li>
+</ul>
+<p><em>4.</em> SoftamxWithLossLayer 之 <strong>LayerSetUp</strong></p>
+<p>LayerSetUp 函数简单总结如下：</p>
+<ul>
+<li>创建一个 SoftmaxLayer ，并设置其 bottom 和 top<ul>
+<li>SoftmaxLayer的 bottom 即 SoftmaxWithLossLayer的 bottom</li>
+<li>SoftmaxLayer的 top 存放的是 prob_，即概率值输出</li>
+</ul>
+</li>
+<li>对忽略标签和loss归一化的相关设置</li>
+</ul>
+<p>具体代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</div><div class="line"><span class="keyword">void</span> SoftmaxWithLossLayer&lt;Dtype&gt;::LayerSetUp(</div><div class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top) &#123;</div><div class="line">  LossLayer&lt;Dtype&gt;::LayerSetUp(bottom, top);</div><div class="line">  <span class="function">LayerParameter <span class="title">softmax_param</span><span class="params">(<span class="keyword">this</span>-&gt;layer_param_)</span></span>;</div><div class="line">  <span class="comment">// 1、创建一个 SoftmaxLayer</span></div><div class="line">  softmax_param.set_type(<span class="string">"Softmax"</span>);</div><div class="line">  softmax_layer_ = LayerRegistry&lt;Dtype&gt;::CreateLayer(softmax_param);</div><div class="line">  softmax_bottom_vec_.clear();</div><div class="line">  <span class="comment">// 2、初始化 SoftmaxLayer 的bottom和top ，可以看到：</span></div><div class="line">  <span class="comment">// SoftmaxLayer的 bottom 即 SoftmaxWithLossLayer的 bottom</span></div><div class="line">  <span class="comment">// SoftmaxLayer的 top 存放的是 prob_，即概率值输出</span></div><div class="line">  softmax_bottom_vec_.push_back(bottom[<span class="number">0</span>]);</div><div class="line">  softmax_top_vec_.clear();</div><div class="line">  softmax_top_vec_.push_back(&amp;prob_);</div><div class="line">  softmax_layer_-&gt;SetUp(softmax_bottom_vec_, softmax_top_vec_);</div><div class="line"></div><div class="line">  <span class="comment">//3、对忽略标签和loss归一化的相关设置</span></div><div class="line">  has_ignore_label_ =</div><div class="line">    <span class="keyword">this</span>-&gt;layer_param_.loss_param().has_ignore_label();</div><div class="line">  <span class="keyword">if</span> (has_ignore_label_) &#123;</div><div class="line">    ignore_label_ = <span class="keyword">this</span>-&gt;layer_param_.loss_param().ignore_label();</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (!<span class="keyword">this</span>-&gt;layer_param_.loss_param().has_normalization() &amp;&amp;</div><div class="line">      <span class="keyword">this</span>-&gt;layer_param_.loss_param().has_normalize()) &#123;</div><div class="line">    normalization_ = <span class="keyword">this</span>-&gt;layer_param_.loss_param().normalize() ?</div><div class="line">                     LossParameter_NormalizationMode_VALID :</div><div class="line">                     LossParameter_NormalizationMode_BATCH_SIZE;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    normalization_ = <span class="keyword">this</span>-&gt;layer_param_.loss_param().normalization();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>4.</em> SoftamxWithLossLayer 之 <strong>Reshape</strong></p>
+<p>Reshape 函数简单总结如下：</p>
+<p>（1）reshpe LossLayer 和 softmax_layer_</p>
+<p>（2）读取要做 softmax的维度（支持负索引，比如-1），一般是 1，并求出 outer_num_ 和 inner_num_</p>
+<p>（3）做一些检查： bottom[1]的大小是 N，N个样本，每个样本对应一个label，总的label数是C（{0, 1, …, C-1}）</p>
+<p>（4）如果的top的size &gt;=2 ，那么 top[1] 存放prob值即softmax的输出</p>
+<p>具体代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</div><div class="line"><span class="keyword">void</span> SoftmaxWithLossLayer&lt;Dtype&gt;::Reshape(</div><div class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top) &#123;</div><div class="line">  <span class="comment">//1、reshpe LossLayer</span></div><div class="line">  LossLayer&lt;Dtype&gt;::Reshape(bottom, top);</div><div class="line">  <span class="comment">//2、reshape softmax_layer_</span></div><div class="line">  softmax_layer_-&gt;Reshape(softmax_bottom_vec_, softmax_top_vec_);</div><div class="line">  <span class="comment">//3、读取要做 softmax的维度（支持负索引，比如-1），一般是 1</span></div><div class="line">  softmax_axis_ =</div><div class="line">      bottom[<span class="number">0</span>]-&gt;CanonicalAxisIndex(<span class="keyword">this</span>-&gt;layer_param_.softmax_param().axis());</div><div class="line">  outer_num_ = bottom[<span class="number">0</span>]-&gt;count(<span class="number">0</span>, softmax_axis_);  <span class="comment">// N ，样本数</span></div><div class="line">  inner_num_ = bottom[<span class="number">0</span>]-&gt;count(softmax_axis_ + <span class="number">1</span>); <span class="comment">// H*W， 一般是1</span></div><div class="line">  <span class="comment">// 4、 bottom[1]的大小是 N，N个样本，每个样本对应一个label，总的label数是C（&#123;0, 1, ..., C-1&#125;）</span></div><div class="line">  CHECK_EQ(outer_num_ * inner_num_, bottom[<span class="number">1</span>]-&gt;count())</div><div class="line">      &lt;&lt; <span class="string">"Number of labels must match number of predictions; "</span></div><div class="line">      &lt;&lt; <span class="string">"e.g., if softmax axis == 1 and prediction shape is (N, C, H, W), "</span></div><div class="line">      &lt;&lt; <span class="string">"label count (number of labels) must be N*H*W, "</span></div><div class="line">      &lt;&lt; <span class="string">"with integer values in &#123;0, 1, ..., C-1&#125;."</span>;</div><div class="line">  <span class="comment">//5、如果的top的size &gt;=2 ，那么 top[1] 存放prob值即softmax的输出</span></div><div class="line">  <span class="keyword">if</span> (top.size() &gt;= <span class="number">2</span>) &#123;</div><div class="line">    <span class="comment">// softmax output</span></div><div class="line">    top[<span class="number">1</span>]-&gt;ReshapeLike(*bottom[<span class="number">0</span>]);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>5.</em> SoftamxWithLossLayer 之 <strong>Forward_cpu</strong></p>
+<p>Forward_cpu 函数简单总结如下：</p>
+<p>（1） softmax_layer_ 前向传播求出 prob_</p>
+<p>（2）计算所有样本的 loss， $loss \;-=\; log(\; max(prob, \; Dtype(FLT_MIN)) \;)$</p>
+<p>注意，做了一个最小的溢出保护，理论部分是 $loss  = -log(p)$</p>
+<p>（3）根据所有样本的 loss 和 归一化 方式，求出最终的top</p>
+<p>具体代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</div><div class="line"><span class="keyword">void</span> SoftmaxWithLossLayer&lt;Dtype&gt;::Forward_cpu(</div><div class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top) &#123;</div><div class="line">  <span class="comment">// The forward pass computes the softmax prob values.</span></div><div class="line">  <span class="comment">// 1、softmax_layer_ 前向传播求出 prob</span></div><div class="line">  softmax_layer_-&gt;Forward(softmax_bottom_vec_, softmax_top_vec_);</div><div class="line">  <span class="keyword">const</span> Dtype* prob_data = prob_.cpu_data();</div><div class="line">  <span class="keyword">const</span> Dtype* label = bottom[<span class="number">1</span>]-&gt;cpu_data();</div><div class="line">  <span class="keyword">int</span> dim = prob_.count() / outer_num_;</div><div class="line">  <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">  Dtype loss = <span class="number">0</span>;</div><div class="line"> <span class="comment">// 2、计算所有样本的 loss， loss -= log( max(prob, Dtype(FLT_MIN)) )</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; outer_num_; ++i) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; inner_num_; j++) &#123;</div><div class="line">      <span class="keyword">const</span> <span class="keyword">int</span> label_value = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(label[i * inner_num_ + j]);</div><div class="line">      <span class="keyword">if</span> (has_ignore_label_ &amp;&amp; label_value == ignore_label_) &#123;</div><div class="line">        <span class="keyword">continue</span>;</div><div class="line">      &#125;</div><div class="line">      DCHECK_GE(label_value, <span class="number">0</span>);</div><div class="line">      DCHECK_LT(label_value, prob_.shape(softmax_axis_));</div><div class="line">      <span class="comment">//loss公式</span></div><div class="line">      loss -= <span class="built_in">log</span>(<span class="built_in">std</span>::max(prob_data[i * dim + label_value * inner_num_ + j],</div><div class="line">                           Dtype(FLT_MIN)));</div><div class="line">      ++count;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 3、根据总的 loss 和 归一化 方式，求出最终的top</span></div><div class="line">  top[<span class="number">0</span>]-&gt;mutable_cpu_data()[<span class="number">0</span>] = loss / get_normalizer(normalization_, count);</div><div class="line">  <span class="keyword">if</span> (top.size() == <span class="number">2</span>) &#123;</div><div class="line">    top[<span class="number">1</span>]-&gt;ShareData(prob_);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>6.</em> SoftamxWithLossLayer 之 <strong>Backward_cpu</strong></p>
+<p>Backward_cpu 主要是求Loss对输入的梯度，回归前面的理论部分：</p>
+<p>$对于任意输入 a_k，分两种情况：\quad k \;=\; i  \quad和\quad k \; != \; i$</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+\frac{\partial L}{\partial a_k} \quad & = \quad -1 + f(a_k) & = & \quad p_k -1  & ( & k \;=\; i \;即k是样本的真实label) \\
+\frac{\partial L}{\partial a_k} \quad & = \quad 0 + f(a_k)  & = & \quad p_k & ( &k \; != \; i \;即k不是样本的真实labe)\\
+\end{aligned}
+\right.</script><p>（1）反向传播求 bottom_diff</p>
+<ul>
+<li>初始 bottom_diff 初始值为 prob_，即softmax的输出</li>
+<li>用公式表示：$\frac{\partial L}{\partial a_k} = p_k$</li>
+</ul>
+<p>（2）对于忽略的label, bottom_diff = 0</p>
+<p>（3）对于真实label的 $a_k$ , bottom_diff 要减去1</p>
+<p>具体代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dtype&gt;</div><div class="line"><span class="keyword">void</span> SoftmaxWithLossLayer&lt;Dtype&gt;::Backward_cpu(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; top,</div><div class="line">    <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt;&amp; propagate_down, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;Blob&lt;Dtype&gt;*&gt;&amp; bottom) &#123;</div><div class="line">  <span class="comment">// propagate_down 指示bottom中那个blob需要做 backward ，我们知道 bottom[0]是输入，需要做 backward ，而</span></div><div class="line">  <span class="comment">// bttom[1] 是 label，不能做backward，所以这里做了个检查，像EuclideanLossLayer则没有这种要求，</span></div><div class="line">  <span class="comment">// 但是代码判断起来比较复杂， 需要根据 propagate_down来判断bottom中哪个是输入 哪个是label值</span></div><div class="line">  <span class="keyword">if</span> (propagate_down[<span class="number">1</span>]) &#123;</div><div class="line">    LOG(FATAL) &lt;&lt; <span class="keyword">this</span>-&gt;type()</div><div class="line">               &lt;&lt; <span class="string">" Layer cannot backpropagate to label inputs."</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//反向传播，求 bottom_diff</span></div><div class="line">  <span class="keyword">if</span> (propagate_down[<span class="number">0</span>]) &#123;</div><div class="line">    Dtype* bottom_diff = bottom[<span class="number">0</span>]-&gt;mutable_cpu_diff();</div><div class="line">    <span class="keyword">const</span> Dtype* prob_data = prob_.cpu_data();</div><div class="line">    <span class="comment">// 1、bottom_diff 初始值为 prob_，即softmax的输出</span></div><div class="line">    caffe_copy(prob_.count(), prob_data, bottom_diff);</div><div class="line">    <span class="keyword">const</span> Dtype* label = bottom[<span class="number">1</span>]-&gt;cpu_data();</div><div class="line">    <span class="keyword">int</span> dim = prob_.count() / outer_num_;</div><div class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; outer_num_; ++i) &#123;</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; inner_num_; ++j) &#123;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">int</span> label_value = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(label[i * inner_num_ + j]);</div><div class="line">        <span class="keyword">if</span> (has_ignore_label_ &amp;&amp; label_value == ignore_label_) &#123;</div><div class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> c = <span class="number">0</span>; c &lt; bottom[<span class="number">0</span>]-&gt;shape(softmax_axis_); ++c) &#123;</div><div class="line">            <span class="comment">//2、对于忽略的label, bottom_diff = 0</span></div><div class="line">            bottom_diff[i * dim + c * inner_num_ + j] = <span class="number">0</span>;</div><div class="line">          &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="comment">//3、 对于真实label的 a_k , bottom_diff要减去1</span></div><div class="line">          bottom_diff[i * dim + label_value * inner_num_ + j] -= <span class="number">1</span>;</div><div class="line">          ++count;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Scale gradient</span></div><div class="line">    Dtype loss_weight = top[<span class="number">0</span>]-&gt;cpu_diff()[<span class="number">0</span>] /</div><div class="line">                        get_normalizer(normalization_, count);</div><div class="line">    caffe_scal(prob_.count(), loss_weight, bottom_diff);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+        
+        <categories>
+            
+            <category> 深度学习 </category>
+            
+            <category> Caffe </category>
+            
+            <category> LossLayers </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Caffe </tag>
+            
+            <tag> Loss </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
         <title><![CDATA[Logistic回归分析]]></title>
         <url>http://yoursite.com/2017/09/07/logistic/</url>
         <content type="html"><![CDATA[<h1 id="Logistic回归分析"><a href="#Logistic回归分析" class="headerlink" title="Logistic回归分析"></a>Logistic回归分析</h1><p>$\qquad Logistic$回归为概率型非线性回归模型，机器学习常用的二类分类器，其表达式为：</p>
